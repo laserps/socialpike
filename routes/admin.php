@@ -23,8 +23,6 @@
         Route::get('/logout', 'Admin\AuthController@logout');
         Route::get('/dashboard', 'Admin\HomeController@index');
 
-
-
         //User
         Route::get('/change_password', 'Admin\UserController@change_password');
         Route::get('/profile', 'Admin\UserController@profile');
@@ -61,7 +59,7 @@
         Route::post('/Menu/{id}', 'Admin\MenuController@update');
         Route::post('/Menu/Delete/{id}', 'Admin\MenuController@destroy');
 
-    Route::get('/AdminUser', 'Admin\AdminUserController@index');
+        Route::get('/AdminUser', 'Admin\AdminUserController@index');
         Route::get('/AdminUser/Lists', 'Admin\AdminUserController@Lists');
         Route::post('/AdminUser', 'Admin\AdminUserController@store');
         Route::get('/AdminUser/{id}', 'Admin\AdminUserController@show');

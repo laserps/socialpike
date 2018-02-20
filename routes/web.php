@@ -25,6 +25,11 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/main', function(){
     return view('Member.main');
 });
+Route::get('/post', function(){
+    return view('Member.post');
+});
+Route::post('/post', 'PostController@post');
+
 Route::group(['middleware' => 'member'], function(){
     // Route::get('/main', function(){
     //     return view('Member.main');
