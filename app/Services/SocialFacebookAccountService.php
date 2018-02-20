@@ -25,11 +25,11 @@ class SocialFacebookAccountService
  
             if (!$user){
                 $user = Member::create([
-                    //'facebook_id' => $socialUser->getId(),
+                    'facebook_id' => $socialUser->getId(),
                     'email' => $providerUser->getEmail(),
                     'name' => $providerUser->getName(),
-                    //'nickname' => $providerUser->getNickname(),
-                    //'avatar' => $providerUser->getAvatar(),
+                    'nickname' => $providerUser->getNickname(),
+                    'avatar' => $providerUser->getAvatar(),
                     'password' => md5(rand(1,10000))
                 ]);
             }
