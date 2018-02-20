@@ -31,7 +31,7 @@ Route::get('/post', function(){
 Route::post('/post', 'PostController@post');
 
 Route::group(['middleware' => 'member'], function(){
-    // Route::get('/main', function(){
-    //     return view('Member.main');
-    // });
+    Route::get('/first', function(){
+        return view('Member.main');
+    });
 });
