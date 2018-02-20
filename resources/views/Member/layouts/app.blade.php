@@ -47,6 +47,10 @@
         <script type="text/javascript" src="{{asset('assets/member/node_modules/bootstrap/dist/js/bootstrap.min.js')}}"></script>
         <script src="{{asset('assets/global/js/validate.js')}}"></script>
         <script src="{{asset('assets/global/plugins/jquery-validation/js/jquery.validate.min.js')}}"></script>
+        <script>
+            var url = "{{url('')}}";
+            var asset = "{{asset('')}}";
+        </script>
         @yield('jsbottom')
     </body>
 </html>
