@@ -18,12 +18,15 @@ Route::get('/logout',function(){
     return \Auth::logout();
 });
 
+Route::get('/', function(){
+    return view('welcome');
+});
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/main', function(){
+    return view('Member.main');
+});
 Route::group(['middleware' => 'member'], function(){
-    Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/', function(){
-        return view('welcome');
-    });
-    Route::get('/main', function(){
-        return view('Member.main');
-    });
+    // Route::get('/main', function(){
+    //     return view('Member.main');
+    // });
 });
