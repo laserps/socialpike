@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\User;
 class SocialFacebookAccount extends Model
 {
     protected $table = "facebook_login";
@@ -11,6 +11,6 @@ class SocialFacebookAccount extends Model
  
     public function user()
     {
-        return $this->belongsTo(\App\Models\Member::class);
+        return $this->belongsTo(User::class);
     }
 }

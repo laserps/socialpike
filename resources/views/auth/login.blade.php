@@ -1,4 +1,4 @@
-@extends('layouts.app')
+ @extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -63,14 +63,12 @@
                         <div class="col-md-8 col-md-offset-4">
                             OR <br>
                         </div>
-                    </form>
-                    <div class="form-group">
-                        <div class="col-md-8 col-md-offset-4">
-                            <a href="{{url('/redirect')}}">
-                                <button type="" class="btn btn-primary btn-facebook">Login with Facebook</button>
-                            </a>  
+                        <div class="form-group">
+                            <div class="col-md-8 col-md-offset-4">
+                              <a href="{{url('/redirect')}}" class="btn btn-primary">Login with Facebook</a>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
