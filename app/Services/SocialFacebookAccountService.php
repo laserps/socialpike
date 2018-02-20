@@ -30,7 +30,7 @@ class SocialFacebookAccountService
                     'name' => $providerUser->getName(),
                     //'nickname' => $providerUser->getNickname(),
                     //'avatar' => $providerUser->getAvatar(),
-                    'password' => md5(rand(1,10000)),
+                    'password' => md5(rand(1,10000))
                 ]);
             }
  

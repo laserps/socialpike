@@ -26,7 +26,7 @@ Route::get('/main', function(){
     return view('Member.main');
 });
 Route::group(['middleware' => 'member'], function(){
-    // Route::get('/main', function(){
-    //     return view('Member.main');
-    // });
+    Route::get('/first', function(){
+        return view('Member.main');
+    });
 });
