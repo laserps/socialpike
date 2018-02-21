@@ -10,13 +10,14 @@
     class ReplyController extends Controller
     {
         public function store(Request $request){
-            $post = $request->all();
-            unset($post['_token']);
-            $post['created_at'] = date('Y-m-d H:i:s');
-            $post['user_id'] = Auth::user()->id;
+            $reply = $request->all();
+            $reply['message'] = json_encode($request->message);
+            unset($reply['_token']);
+            $reply['created_at'] = date('Y-m-d H:i:s');
+            $reply['user_id'] = Auth::user()->id;
             \DB::beginTransaction();
             try {
-                Reply::insert($post);
+                Reply::insert($reply);
                 \DB::commit();
             } catch (Exception $e){
                 \DB::rollBack();

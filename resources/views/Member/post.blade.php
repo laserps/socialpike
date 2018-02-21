@@ -7,7 +7,7 @@
     <div class="col-12 col-md-8">
         <!-- input -->
         <div class="card mb-4">
-            <form id='post'>
+            <form method='post' name='post' action="{{asset('/post')}}">
                 <textarea class='form-control' name='detail'></textarea>
                 <div class="col-md-2 pull-right">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -64,7 +64,7 @@
                 <!-- Body Card / Content Section  -->
                 <div class="card-body-lg">
                     <div class="m-2 post-content">
-                        <p>{{$val->detail}}</p>
+                        <p>{{json_decode($val->detail)}}</p>
                     </div>
                     <div class="m-2 social-action">
                         <div class="p-2">
@@ -128,7 +128,7 @@
 
                         <!-- reply -->
                         <div class="mx-2 post-comment">
-                            <p>{{$comment->detail}}</p>
+                            <p>{{json_decode($comment->detail)}}</p>
                             <div class="comment-reply">
                                 <a href="#" class="text-reply">reply</a>
                                 @foreach($comment->getReply as $reply)
@@ -166,7 +166,7 @@
                                                 <!-- End comment option -->
                                                 <!-- Start post comment -->
                                                 <div class="mx-2 post-comment-reply">
-                                                    <p class="mb-0">{{$reply->message}}</p>
+                                                    <p class="mb-0">{{json_decode($reply->message)}}</p>
                                                 </div>
                                                 <!-- End post comment -->
                                             </div>
@@ -216,11 +216,6 @@
 
 @section('jsbottom')
     <script>
-
-        $('[name="comment"]').submit(function () {
-            sendContactForm();
-            return false;
-        });
 
         $("#post").validate({
             rules: {

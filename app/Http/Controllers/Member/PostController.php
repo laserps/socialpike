@@ -11,6 +11,7 @@ class PostController extends Controller
 {
     public function store(Request $request){
         $post = $request->all();
+        $post['detail'] = json_encode($request->detail);
         unset($post['_token']);
         $post['created_at'] = date('Y-m-d H:i:s');
         $post['posted_by'] = Auth::user()->id;
@@ -18,15 +19,9 @@ class PostController extends Controller
         try {
             Post::insert($post);
             \DB::commit();
-            $return['type'] = 'success';
-            $return['text'] = 'สำเร็จ';
         } catch (Exception $e){
             \DB::rollBack();
-            $return['type'] = 'error';
-            $return['text'] = 'ไม่สำเร็จ'.$e->getMessage();
         }
-        $return['title'] = 'เพิ่มข้อมูล';
-        return $return;
     }
 
 }

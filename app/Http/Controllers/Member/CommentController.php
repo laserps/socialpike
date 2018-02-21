@@ -11,6 +11,7 @@
     {
         public function store(Request $request){
             $comment = $request->all();
+            $comment['detail'] = json_encode($request->detail);
             unset($comment['_token']);
             $comment['member_id'] = Auth::user()->id;
             $comment['created_at'] = date('Y-m-d H:i:s');
