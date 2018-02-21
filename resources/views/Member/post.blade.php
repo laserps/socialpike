@@ -7,10 +7,23 @@
     <div class="col-12 col-md-8">
         <!-- input -->
         <div class="card mb-4">
-            <form id='post'>
-                <textarea class='form-control' name='detail'></textarea>
+            <form method='post' name='post' action="{{asset('/post')}}">
+                <textarea class='form-control' name='detail' id='detail'></textarea>
                 <div class="col-md-2 pull-right">
                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                    <div class="dropdown option-action-more">
+                        <span class="dropdown-toggle dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
+                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                            <div class="row">
+                                <a href='' data-id='{{Emoji::findByName("sunglasses")}}' class='emoji'>{{Emoji::findByName("sunglasses")}}</a>
+                                <a href='' data-id='{{Emoji::findByName("sunglasses")}}' class='emoji'>{{Emoji::findByName("sunglasses")}}</a>
+                                <a href='' data-id='{{Emoji::findByName("sunglasses")}}' class='emoji'>{{Emoji::findByName("sunglasses")}}</a>
+                                <a href='' data-id='{{Emoji::findByName("sunglasses")}}' class='emoji'>{{Emoji::findByName("sunglasses")}}</a>
+                                <a href='' data-id='{{Emoji::findByName("sunglasses")}}' class='emoji'>{{Emoji::findByName("sunglasses")}}</a>
+                                <a href='' data-id='{{Emoji::findByName("sunglasses")}}' class='emoji'>{{Emoji::findByName("sunglasses")}}</a>
+                            </div>
+                        </div>
+                    </div>
                     <button type='submit' class='btn btn-success'>post</button>
                 </div>
             </form>
@@ -40,7 +53,7 @@
                                         <a class="dropdown-item" href="#">Save post</a>
                                         <a class="dropdown-item" href="#">Copy link</a>
                                         <a class="dropdown-item" href="#">Delete post</a>
-                                        <a class="dropdown-item dropdown-item-last" href="#">Report post</a>
+                                        <a class="dropdown-item dropdown-item-last report_post" data-id='{{$val->id}}'>Report post</a>
                                     </div>
                                 </div>
                             </div>
@@ -64,7 +77,7 @@
                 <!-- Body Card / Content Section  -->
                 <div class="card-body-lg">
                     <div class="m-2 post-content">
-                        <p>{{$val->detail}}</p>
+                        <p>{{json_decode($val->detail)}}</p>
                     </div>
                     <div class="m-2 social-action">
                         <div class="p-2">
@@ -128,7 +141,7 @@
 
                         <!-- reply -->
                         <div class="mx-2 post-comment">
-                            <p>{{$comment->detail}}</p>
+                            <p>{{json_decode($comment->detail)}}</p>
                             <div class="comment-reply">
                                 <a href="#" class="text-reply">reply</a>
                                 @foreach($comment->getReply as $reply)
@@ -166,7 +179,7 @@
                                                 <!-- End comment option -->
                                                 <!-- Start post comment -->
                                                 <div class="mx-2 post-comment-reply">
-                                                    <p class="mb-0">{{$reply->message}}</p>
+                                                    <p class="mb-0">{{json_decode($reply->message)}}</p>
                                                 </div>
                                                 <!-- End post comment -->
                                             </div>
@@ -212,30 +225,82 @@
         @endforeach
         <!-- end.wall -->
     </div>
+
+    <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="directMessageModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-msg">
+                <form action='{{asset("/report")}}' method="post">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">บอกเราหน่อยว่าเกิดอะไรขึ้น</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name='post_id' id='post_id_for_report'>
+                        @foreach($report_type as $row)
+                            <input type="radio" name="report_type_id" id='type{{$row->report_type_id}}' value='{{$row->report_type_id}}'><label for='type{{$row->report_type_id}}'>&nbsp;{{$row->report_type_name}}</label><br>
+                        @endforeach
+                        <hr>
+                        <div class="input-group input-search">
+                            <input type="text" name='detail' class="form-control input-rounded" placeholder="เหตุผล" aria-label="Search" aria-describedby="basic-addon2">
+                        </div>
+                    </div>
+                    <div class='modal-footer'>
+                        <button type="button" class="btn" data-dismiss="modal" aria-label="Close">ยกเลิก</button>
+                        <button type="submit" class="btn btn-post btn-sendReport">ดำเนินการต่อ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('jsbottom')
     <script>
 
-        $('[name="comment"]').submit(function () {
-            sendContactForm();
-            return false;
+        $('body').on('click', '.report_post', function () {
+            var id = $(this).data('id');
+            $('#post_id_for_report').val(id);
+            $("#reportModal").modal('show');
         });
 
-        $("#post").validate({
+        // get cursor position
+        /*var caretPos;
+        var textAreaTxt;
+        
+        $(document).on("click keyup", function() {
+            var $txt = $("#detail");
+            caretPos = $txt[0].selectionStart;
+            textAreaTxt = $txt.val();
+        });
+
+
+        $('body').on('click', '.emoji', function () {
+            var id = $(this).data('id');
+            var old_text = $('#detail').val();
+            var new_text = old_text+id;
+            $('#detail').val(new_text);
+            return false;
+        })*/
+        // end.get cursor position
+
+        // ajax post
+        /*$("#post").validate({
             rules: {
-                /*num_doc: "required",
+                num_doc: "required",
                 date_doc: "required",
                 department_id: "required",
                 user_recorder: "required",
-                user_recipient: "required",*/
+                user_recipient: "required",
             },
             messages: {
-                /*num_doc: "กรุณาระบุเลขที่เอกสาร",
+                num_doc: "กรุณาระบุเลขที่เอกสาร",
                 date_doc: "กรุณาระบุวันที่เอกสาร",
                 department_id: "กรุณาเลือกแผนก",
                 user_recorder: "กรุณาเลือกผู้บันทึก",
-                user_recipient: "กรุณาเลือกผู้รับสินค้า",*/
+                user_recipient: "กรุณาเลือกผู้รับสินค้า",
             },
             errorElement: "span",
             errorPlacement: function ( error, element ) {
@@ -260,7 +325,7 @@
                     dataType : 'json',
                     data : $(form).serialize()
                 }).done(function(rec){
-                    /*if(rec.type == 'success'){
+                    if(rec.type == 'success'){
                         $('#infoModal').modal('hide');
                         swal({
                             confirmButtonText:'ตกลง',title: rec.title,text: rec.text,type: rec.type
@@ -275,9 +340,11 @@
                         swal({
                             confirmButtonText:'ตกลง',title: rec.title,text: rec.text,type: rec.type
                         });
-                    }*/
+                    }
                 });
             }
-        });
+        });*/
+        // end.ajax post
+
     </script>
 @endsection

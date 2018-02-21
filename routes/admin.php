@@ -66,6 +66,20 @@
         Route::post('/AdminUser/{id}', 'Admin\AdminUserController@update');
         Route::post('/AdminUser/Delete/{id}', 'Admin\AdminUserController@destroy');
 
+      Route::get('/ReportType', 'Admin\ReportTypeController@index');
+        Route::get('/ReportType/Lists', 'Admin\ReportTypeController@Lists');
+        Route::post('/ReportType', 'Admin\ReportTypeController@store');
+        Route::get('/ReportType/{id}', 'Admin\ReportTypeController@show');
+        Route::post('/ReportType/{id}', 'Admin\ReportTypeController@update');
+        Route::post('/ReportType/Delete/{id}', 'Admin\ReportTypeController@destroy');
+
+      Route::get('/PostReport', 'Admin\PostReportController@index');
+        Route::get('/PostReport/Lists', 'Admin\PostReportController@Lists');
+        Route::post('/PostReport', 'Admin\PostReportController@store');
+        Route::get('/PostReport/{id}', 'Admin\PostReportController@show');
+        Route::post('/PostReport/{id}', 'Admin\PostReportController@update');
+        Route::post('/PostReport/Delete/{id}', 'Admin\PostReportController@destroy');
+
       ##ROUTEFORINSTALL##
 
     });
