@@ -25,10 +25,10 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/main', function(){
     return view('Member.main');
 });
-Route::get('/post', function(){
-    return view('Member.post');
-});
-Route::post('/post', 'PostController@post');
+Route::get('/wall','Member\FetchController@wall');
+Route::post('/post', 'Member\PostController@store');
+Route::post('/reply', 'Member\ReplyController@store');
+Route::post('/comment', 'Member\CommentController@store');
 
 Route::group(['middleware' => 'member'], function(){
     Route::get('/first', function(){
