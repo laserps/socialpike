@@ -183,6 +183,9 @@ return [
         Unisharp\Laravelfilemanager\LaravelFilemanagerServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
+
+        //Custom
+        App\Providers\Custom\ProfileServiceProvider::class,
     ],
 
     /*
