@@ -29,6 +29,7 @@ Route::get('/wall','Member\FetchController@wall');
 Route::post('/post', 'Member\PostController@store');
 Route::post('/reply', 'Member\ReplyController@store');
 Route::post('/comment', 'Member\CommentController@store');
+Route::post('/report', 'Member\ReportController@store');
 
 Route::group(['middleware' => 'member'], function(){
     Route::get('/first', function(){
