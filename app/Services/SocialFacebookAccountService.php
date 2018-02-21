@@ -2,17 +2,25 @@
 
 namespace App\Services;
 use App\SocialFacebookAccount;
-use App\Models\Member;
+use App\User;
 use Laravel\Socialite\Contracts\User as ProviderUser;
  
 class SocialFacebookAccountService
 {
     public function createOrGetUser(ProviderUser $providerUser)
     {
+        $data = [
+            //''  =>  $providerUser->getId();
+            'nickname'  =>  $providerUser->getNickname(),
+            'name'  =>  $providerUser->getName(),
+            'email'  =>  $providerUser->getEmail(),
+            'avatar'  =>  $providerUser->getAvatar(),
+            'password' => bcrypt(rand(1,10000))
+        ];
+
         $account = SocialFacebookAccount::whereProvider('facebook')
             ->whereProviderUserId($providerUser->getId())
             ->first();
- 
         if($account){
             return $account->user;
         }else{
@@ -20,23 +28,14 @@ class SocialFacebookAccountService
                 'provider_user_id' => $providerUser->getId(),
                 'provider' => 'facebook'
             ]);
- 
-            $user = Member::whereEmail($providerUser->getEmail())->first();
- 
+            $user = User::whereEmail($providerUser->getEmail())->first();
+
             if (!$user){
-                $user = Member::create([
-                    'facebook_id' => $socialUser->getId(),
-                    'email' => $providerUser->getEmail(),
-                    'name' => $providerUser->getName(),
-                    'nickname' => $providerUser->getNickname(),
-                    'avatar' => $providerUser->getAvatar(),
-                    'password' => md5(rand(1,10000))
-                ]);
+                $user = User::create($data);
             }
- 
+            //Auth::guard('member')->login($user);
             $account->user()->associate($user);
             $account->save();
- 
             return $user;
         }
     }
