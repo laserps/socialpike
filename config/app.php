@@ -186,6 +186,7 @@ return [
 
         //Custom
         App\Providers\Custom\ProfileServiceProvider::class,
+        Unicodeveloper\Emoji\EmojiServiceProvider::class,
     ],
 
     /*
@@ -242,6 +243,8 @@ return [
         'Image' => Intervention\Image\Facades\Image::class,
 
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+
+        'Emoji' => Unicodeveloper\Emoji\Facades\Emoji::class,
         
     ],
 
