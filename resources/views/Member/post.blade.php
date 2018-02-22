@@ -202,22 +202,12 @@
                         </div>
                     </div>
                 @endforeach
-                <!-- Footer Card / Comment section -->
-
                 <div class="card-footer-lg">
                     <div class="m-0">
                         <a href="#">
                             <img src="http://localhost/socialpike/public/assets/member/assets/images/girl.jpg" class="img-fluid rounded-circle image-comment" alt="Profile image">
                         </a>
                     </div>
-                    <!-- <form method='post' id='comment{{$val->id}}'>
-                        <div class="m-1 input-comment">
-                            <input type="text" class="form-control input-rounded detail_comment" placeholder="Add a comment" aria-label="Search" aria-describedby="">
-                        </div>
-                        <div class="m-1 btn-coment">
-                            <input type="button" class="btn btn-post send_comment" value="POST" data-id='{{$val->id}}'>
-                        </div>
-                    </form> -->
                     <form method='post' class='comment_form'>
                         <div class="m-1 input-comment">
                             <input type="hidden" name="post_id" value='{{$val->id}}'>
@@ -237,7 +227,7 @@
     <div class="modal fade" id="reportModal" tabindex="-1" role="dialog" aria-labelledby="directMessageModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content modal-content-msg">
-                <form action='{{asset("/report")}}' method="post">
+                <form class='report_form'>
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLongTitle">บอกเราหน่อยว่าเกิดอะไรขึ้น</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -264,7 +254,36 @@
         </div>
     </div>
 
-    
+    <div class="modal fade" id="report1Modal" tabindex="-1" role="dialog" aria-labelledby="directMessageModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content modal-content-msg">
+                <form class='report_form'>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">บอกเราหน่อยว่าเกิดอะไรขึ้น</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                        <input type="hidden" name='post_id' id='post_id_for_report'>
+                        @foreach($report_type as $row)
+                            <input type="radio" name="report_type_id" id='type{{$row->report_type_id}}' value='{{$row->report_type_id}}'><label for='type{{$row->report_type_id}}'>&nbsp;{{$row->report_type_name}}</label><br>
+                        @endforeach
+                        <hr>
+                        <div class="input-group input-search">
+                            <input type="text" name='detail' class="form-control input-rounded" placeholder="เหตุผล" aria-label="Search" aria-describedby="basic-addon2">
+                        </div>
+                    </div>
+                    <div class='modal-footer'>
+                        <button type="button" class="btn" data-dismiss="modal" aria-label="Close">ยกเลิก</button>
+                        <button type="submit" class="btn btn-post btn-sendReport">ดำเนินการต่อ</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('jsbottom')
@@ -320,11 +339,12 @@
             var data = $(this).serialize();
             $.ajax({
                 method : "POST",
-                url : url+"/reply",
+                url : url+"/report",
                 dataType : 'json',
                 data: data,
             }).done(function(rec){
-                // prepend
+                $("#reportModal").modal('hide');
+                $("#report1Modal").modal('show');
             });
         });
 
