@@ -13,7 +13,7 @@
 							<div class="card-header-lg ">
 						    	<div class="m-1">
 						    		<a href="#">
-						    			<img src="assets/images/girl.jpg" class="img-fluid rounded-circle image-post-box" alt="Profile image">
+						    			<img src="{{asset('assets/member/assets/images/girl.jpg')}}" class="img-fluid rounded-circle image-post-box" alt="Profile image">
 						    		</a>
 						    	</div>
 						  	</div>
@@ -59,7 +59,7 @@
 							<div class="card-header-lg ">
 						    	<div class="m-1">
 						    		<a href="#">
-						    			<img src="assets/images/girl.jpg" class="img-fluid rounded-circle image-post" alt="Profile image">
+						    			<img src="{{asset('assets/member/assets/images/girl.jpg')}}" class="img-fluid rounded-circle image-post" alt="Profile image">
 						    		</a>
 						    	</div>
 						    	<div class="m-2 profile-header-name">
@@ -108,7 +108,7 @@
 						  			<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
 						  			<div class="image-post-content">
 						  				<a href="#">
-						  					<img src="assets/images/post-test.jpg" class="img-fluid" alt="Profile image">
+						  					<img src="{{asset('assets/member/assets/images/post-test.jpg')}}" class="img-fluid" alt="Profile image">
 						  				</a>
 						  			</div>
 						  		</div>
@@ -136,7 +136,7 @@
 						  	<div class="card-footer-lg">
 						    	<div class="m-0">
 						    		<a href="#">
-						    			<img src="assets/images/girl.jpg" class="img-fluid rounded-circle image-comment" alt="Profile image">
+						    			<img src="{{ asset('assets/member/assets/images/girl.jpg') }}" class="img-fluid rounded-circle image-comment" alt="Profile image">
 						    		</a>
 						    	</div>
 						    	<div class="m-1 input-comment">
@@ -167,7 +167,7 @@
 							<div class="card-header-lg ">
 						    	<div class="m-1">
 						    		<a href="#">
-						    			<img src="assets/images/girl.jpg" class="img-fluid rounded-circle image-post" alt="Profile image">
+						    			<img src="{{asset('assets/member/assets/images/girl.jpg')}}" class="img-fluid rounded-circle image-post" alt="Profile image">
 						    		</a>
 						    	</div>
 						    	<div class="m-2 profile-header-name">
@@ -235,7 +235,7 @@
 						  	<div class="card-body-comment-lg">
 						  		<div class="m-2">
 						  			<a href="#">
-						    			<img src="assets/images/girl5.jpg" class="img-fluid rounded-circle image-friend-comment" alt="Profile image">
+						    			<img src="{{asset('assets/member/assets/images/girl5.jpg')}}" class="img-fluid rounded-circle image-friend-comment" alt="Profile image">
 						    		</a>
 						  		</div>
 						  		<div class="mx-2 profile-header-name-comment">
@@ -285,7 +285,7 @@
 						  				<div class="mb-4 mt-2 reply-box">
 					                        <div class="m-0">
 					                          <a href="#">
-					                            <img src="assets/images/girl.jpg" class="img-fluid rounded-circle image-comment" alt="Profile image">
+					                            <img src="{{asset('assets/member/assets/images/girl.jpg')}}" class="img-fluid rounded-circle image-comment" alt="Profile image">
 					                          </a>
 					                        </div>
 					                        <div class="m-1 input-comment">
@@ -299,7 +299,7 @@
 						  					<!-- <div class="row"> -->
 										  		<div class="m-2">
 										  			<a href="#">
-										    			<img src="assets/images/men1.jpg" class="img-fluid rounded-circle image-friend-comment" alt="Profile image">
+										    			<img src="{{asset('assets/member/assets/images/men1.jpg')}}" class="img-fluid rounded-circle image-friend-comment" alt="Profile image">
 										    		</a>
 										  		</div>
 										  		<div class="mx-2 profile-header-name-comment">
@@ -347,7 +347,7 @@
 						  	<div class="card-footer-lg">
 						    	<div class="m-0">
 						    		<a href="#">
-						    			<img src="assets/images/girl.jpg" class="img-fluid rounded-circle image-comment" alt="Profile image">
+						    			<img src="{{asset('assets/member/assets/images/girl.jpg')}}" class="img-fluid rounded-circle image-comment" alt="Profile image">
 						    		</a>
 						    	</div>
 						    	<div class="m-1 input-comment">
@@ -365,7 +365,7 @@
 							<div class="card-header-lg ">
 						    	<div class="m-1">
 						    		<a href="#">
-						    			<img src="assets/images/girl.jpg" class="img-fluid rounded-circle image-post" alt="Profile image">
+						    			<img src="{{asset('assets/member/assets/images/girl.jpg')}}" class="img-fluid rounded-circle image-post" alt="Profile image">
 						    		</a>
 						    	</div>
 						    	<div class="m-2 profile-header-name">
@@ -440,7 +440,7 @@
 						  	<div class="card-footer-lg">
 						    	<div class="m-0">
 						    		<a href="#">
-						    			<img src="assets/images/girl.jpg" class="img-fluid rounded-circle image-comment" alt="Profile image">
+						    			<img src="{{asset('assets/member/assets/images/girl.jpg')}}" class="img-fluid rounded-circle image-comment" alt="Profile image">
 						    		</a>
 						    	</div>
 						    	<div class="m-1 input-comment">
