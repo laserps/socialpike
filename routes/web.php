@@ -27,6 +27,24 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/main', function(){
     return view('Member.main');
 });
+Route::get('/info', function(){
+    return view('Member.info');
+});
+Route::get('/friend', function(){
+    return view('Member.friend');
+});
+Route::get('/album', function(){
+    return view('Member.album');
+});
+Route::get('/album_edit', function(){
+    return view('Member.album_edit');
+});
+Route::get('/photo', function(){
+    return view('Member.photo');
+});
+Route::get('/edit_profile', function(){
+    return view('Member.edit_profile');
+});
 
 Route::get('/wall','Member\FetchController@wall');
 Route::post('/post', 'Member\PostController@store');
