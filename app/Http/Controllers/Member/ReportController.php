@@ -21,9 +21,18 @@
                     PostReport::insert($report);
                     \DB::commit();
                 }
+                $result['status'] = 1;
             } catch (Exception $e){
                 \DB::rollBack();
+                $result['status'] = 0;
             }
+            return $result;
+        }
+
+        public function find($post_id){
+            $member_id = Auth::user()->id;
+            $result = PostReport::where(['post_id'=>$post_id,'member_id'=>$member_id])->first();
+            return $result;
         }
     }
 ?>

@@ -9,22 +9,38 @@
         <div class="card mb-4">
             <form class='post_form'>
                 <input type="hidden" name="_token" value='{{ csrf_token() }}'>
-                <textarea class='form-control' name='detail'></textarea>
-                <div class="col-md-2 pull-right">
-                    <div class="dropdown option-action-more">
-                        <span class="dropdown-toggle dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
-                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                            <div class="row">
-                                <a href='' data-id='{{Emoji::findByName("sunglasses")}}' class='emoji'>{{Emoji::findByName("sunglasses")}}</a>
-                                <a href='' data-id='{{Emoji::findByName("sunglasses")}}' class='emoji'>{{Emoji::findByName("sunglasses")}}</a>
-                                <a href='' data-id='{{Emoji::findByName("sunglasses")}}' class='emoji'>{{Emoji::findByName("sunglasses")}}</a>
-                                <a href='' data-id='{{Emoji::findByName("sunglasses")}}' class='emoji'>{{Emoji::findByName("sunglasses")}}</a>
-                                <a href='' data-id='{{Emoji::findByName("sunglasses")}}' class='emoji'>{{Emoji::findByName("sunglasses")}}</a>
-                                <a href='' data-id='{{Emoji::findByName("sunglasses")}}' class='emoji'>{{Emoji::findByName("sunglasses")}}</a>
+                <div class="card-header-lg ">
+                    <div class="m-1">
+                        <a href="#">
+                            <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-post-box" alt="Profile image">
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body-lg">
+                    <div class="post-content">
+                        <div class="px-2">
+                            <div class="form-group">
+                                <textarea class='form-control' name='detail'></textarea>
                             </div>
                         </div>
+                        <div class="m-1">
+                            <span class="input-group-btn">
+                                <span class="btn btn-file add-post-image">
+                                    <span class="fa fa-picture-o"></span>
+                                        <input type="file" accept="image/png, image/jpeg, image/gif"/>
+                                </span>
+                            </span>
+                            <span class="input-group-btn">
+                                <span class="btn btn-file add-post-emotion">
+                                    <span class="fa fa-smile-o"></span>
+                                        <input type="file" accept="image/png, image/jpeg, image/gif"/>
+                                </span>
+                            </span>
+                        </div>
                     </div>
-                    <button type='submit' class='btn btn-success'>post</button>
+                    <div class="m-1 btn-coment" >
+                        <input type="submit" name="post" class="btn btn-post" value="POST">
+                    </div>
                 </div>
             </form>
         </div>
@@ -238,11 +254,11 @@
                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                         <input type="hidden" name='post_id' id='post_id_for_report'>
                         @foreach($report_type as $row)
-                            <input type="radio" name="report_type_id" id='type{{$row->report_type_id}}' value='{{$row->report_type_id}}'><label for='type{{$row->report_type_id}}'>&nbsp;{{$row->report_type_name}}</label><br>
+                            <input type="radio" name="report_type_id" id='report_type{{$row->report_type_id}}' value='{{$row->report_type_id}}'><label for='report_type{{$row->report_type_id}}'>&nbsp;{{$row->report_type_name}}</label><br>
                         @endforeach
                         <hr>
                         <div class="input-group input-search">
-                            <input type="text" name='detail' class="form-control input-rounded" placeholder="เหตุผล" aria-label="Search" aria-describedby="basic-addon2">
+                            <input type="text" name='detail' id='report_detail' class="form-control input-rounded" placeholder="เหตุผล" aria-label="Search" aria-describedby="basic-addon2">
                         </div>
                     </div>
                     <div class='modal-footer'>
@@ -254,30 +270,22 @@
         </div>
     </div>
 
-    <div class="modal fade" id="report1Modal" tabindex="-1" role="dialog" aria-labelledby="directMessageModalTitle" aria-hidden="true">
+    <div class="modal fade" id="actionFriendModal" tabindex="-1" role="dialog" aria-labelledby="directMessageModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content modal-content-msg">
-                <form class='report_form'>
+                <form class='action_friend_form'>
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLongTitle">บอกเราหน่อยว่าเกิดอะไรขึ้น</h5>
+                        <h5 class="modal-title" id="exampleModalLongTitle">action</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name='post_id' id='post_id_for_report'>
-                        @foreach($report_type as $row)
-                            <input type="radio" name="report_type_id" id='type{{$row->report_type_id}}' value='{{$row->report_type_id}}'><label for='type{{$row->report_type_id}}'>&nbsp;{{$row->report_type_name}}</label><br>
-                        @endforeach
-                        <hr>
-                        <div class="input-group input-search">
-                            <input type="text" name='detail' class="form-control input-rounded" placeholder="เหตุผล" aria-label="Search" aria-describedby="basic-addon2">
-                        </div>
+                        <!-- action -->
                     </div>
                     <div class='modal-footer'>
-                        <button type="button" class="btn" data-dismiss="modal" aria-label="Close">ยกเลิก</button>
-                        <button type="submit" class="btn btn-post btn-sendReport">ดำเนินการต่อ</button>
+                        <button type="button" class="btn" data-dismiss="modal" aria-label="Close">ย้อนกลับ</button>
+                        <button type="submit" class="btn btn-post btn-sendReport">บันทึก</button>
                     </div>
                 </form>
             </div>
@@ -329,8 +337,19 @@
         });
 
         $('body').on('click', '.report_post', function () {
+            $('#report_detail').val("");
+            $("input[name='report_type_id']").prop("checked", false);
             var id = $(this).data('id');
             $('#post_id_for_report').val(id);
+            $.ajax({
+                method : 'get',
+                url    : url+"/find_report/"+id,
+            }).done(function(rec){
+                if(rec){
+                    $('#report_detail').val(rec.detail);
+                    $("#report_type"+rec.report_type_id).prop("checked", true);
+                }
+            });
             $("#reportModal").modal('show');
         });
 
@@ -343,8 +362,9 @@
                 dataType : 'json',
                 data: data,
             }).done(function(rec){
+                console.log(rec);
                 $("#reportModal").modal('hide');
-                $("#report1Modal").modal('show');
+                $("#actionFriendModal").modal('show');
             });
         });
 
@@ -357,7 +377,6 @@
             caretPos = $txt[0].selectionStart;
             textAreaTxt = $txt.val();
         });
-
 
         $('body').on('click', '.emoji', function () {
             var id = $(this).data('id');

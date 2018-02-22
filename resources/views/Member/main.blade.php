@@ -21,9 +21,9 @@
 						  	<div class="card-body-lg">
 						  		<div class="post-content">
 									<div class="px-2">
-										  <div class="form-group">
+										<div class="form-group">
 										    <textarea class="form-control post-box" id="addPost" placeholder="Add a comment"></textarea>
-										  </div>
+										</div>
 									</div>
 									<div class="m-1">
 						    			<span class="input-group-btn">
