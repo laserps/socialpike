@@ -27,6 +27,7 @@
                                     <h5 class="my-1">Allison Clayborne</h5>
                                 </a>
                             </div>
+
                             <div class="p-2">
                                 <a class="nav-link badge1" data-badge="27" href="#" ><i class="fa fa-bell fa-lg" aria-hidden="true"></i>
                                 </a>

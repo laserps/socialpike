@@ -18,6 +18,8 @@
     <!-- Plugin -->
     <!-- OFFICEDD CSS -->
     <link rel="stylesheet" type="text/css" href="assets/member/assets/css/main.css">
+    <link rel="stylesheet" type="text/css" href="assets/member/assets/css/live-chat.css">
+    
     <!-- end header -->
 
     @yield('cssbottom')
