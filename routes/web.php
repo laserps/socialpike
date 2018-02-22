@@ -21,10 +21,13 @@ Route::get('/logout',function(){
 Route::get('/', function(){
     return view('welcome');
 });
+
 Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/main', function(){
     return view('Member.main');
 });
+
 Route::get('/wall','Member\FetchController@wall');
 Route::post('/post', 'Member\PostController@store');
 Route::post('/reply', 'Member\ReplyController@store');
@@ -37,7 +40,7 @@ Route::group(['middleware' => 'member'], function(){
     });
 });
 
-Route::get('/countstr',function(){
-    $str ="https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/20108240_1613406825336653_8344623303259921044_n.jpg?oh=6f22318a227432fdc7068aa8a23270b6&oe=5B0C2239";
-    return strlen($str);
-});
+// Route::get('/countstr',function(){
+//     $str ="https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/20108240_1613406825336653_8344623303259921044_n.jpg?oh=6f22318a227432fdc7068aa8a23270b6&oe=5B0C2239";
+//     return strlen($str);
+// });

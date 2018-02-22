@@ -3,7 +3,6 @@
 namespace App\Providers\Custom;
 
 use Illuminate\Support\ServiceProvider;
-use App\User;
 
 class ProfileServiceProvider extends ServiceProvider
 {
@@ -14,7 +13,7 @@ class ProfileServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        view()->share('Member.layouts.include.cardleft', User::where('id',Auth()->guard('web')->id()) ); 
+        //
     }
 
     /**
@@ -24,6 +23,11 @@ class ProfileServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->ComposerFormData();
+    }
+    
+    public function ComposerFormData()
+    {
+        view()->composer('Member.layouts.include.top','App\Http\Composers\ComposerProfileData');
     }
 }
