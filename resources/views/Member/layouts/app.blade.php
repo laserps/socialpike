@@ -49,6 +49,14 @@
         <script type="text/javascript" src="{{asset('assets/member/node_modules/bootstrap/dist/js/bootstrap.min.js')}}"></script>
         <script src="{{asset('assets/global/js/validate.js')}}"></script>
         <script src="{{asset('assets/global/plugins/jquery-validation/js/jquery.validate.min.js')}}"></script>
+        <script type="text/javascript">
+            $('textarea.post-box').focus(function () {
+                $(this).animate({ height: "6em" }, 300);
+                });
+            $('textarea.post-box').focusout(function () {
+                $(this).animate({ height: "2.8em" }, 300);
+            });
+        </script>
         <script>
             var url = "{{url('')}}";
             var asset = "{{asset('')}}";
