@@ -10,6 +10,7 @@
     class CommentController extends Controller
     {
         public function store(Request $request){
+            return $request->all();
             $comment = $request->all();
             $comment['detail'] = json_encode($request->detail);
             unset($comment['_token']);

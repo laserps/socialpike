@@ -7,10 +7,10 @@
     <div class="col-12 col-md-8">
         <!-- input -->
         <div class="card mb-4">
-            <form method='post' name='post' action="{{asset('/post')}}">
-                <textarea class='form-control' name='detail' id='detail'></textarea>
+            <form class='post_form'>
+                <input type="hidden" name="_token" value='{{ csrf_token() }}'>
+                <textarea class='form-control' name='detail'></textarea>
                 <div class="col-md-2 pull-right">
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
                     <div class="dropdown option-action-more">
                         <span class="dropdown-toggle dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
@@ -186,16 +186,16 @@
                                         </div>
                                     </div>
                                 @endforeach
-                                <form method='post' name='comment' action="{{asset('/reply')}}">
-                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
+                                <form method='post' class='reply_form'>
+                                    <input type="hidden" name="_token" value='{{ csrf_token() }}'>
                                     <input type="hidden" name="post_id" value="{{$val->id}}">
                                     <input type="hidden" name="comment_id" value="{{$comment->id}}">
                                     <input type="hidden" name="partner_id" value="{{$comment->member_id}}">
                                     <div class="m-1 input-comment">
-                                        <input type="text" class="form-control input-rounded" name='message' placeholder="Add a reply" aria-label="Search" aria-describedby="">
+                                        <input type="text" class="form-control input-rounded detail_report" name='message' placeholder="Add a reply" aria-label="Search" aria-describedby="">
                                     </div>
                                     <div class="m-1 btn-coment">
-                                        <input type="submit" class="btn btn-post" value="reply">
+                                        <input type="submit" class="btn btn-post send_reply" value="reply">
                                     </div>
                                 </form>
                             </div>
@@ -210,14 +210,22 @@
                             <img src="http://localhost/socialpike/public/assets/member/assets/images/girl.jpg" class="img-fluid rounded-circle image-comment" alt="Profile image">
                         </a>
                     </div>
-                    <form method='post' name='comment' action="{{asset('/comment')}}">
-                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                        <input type="hidden" name="post_id" value="{{$val->id}}">
+                    <!-- <form method='post' id='comment{{$val->id}}'>
                         <div class="m-1 input-comment">
-                            <input type="text" class="form-control input-rounded" name='detail' placeholder="Add a comment" aria-label="Search" aria-describedby="">
+                            <input type="text" class="form-control input-rounded detail_comment" placeholder="Add a comment" aria-label="Search" aria-describedby="">
                         </div>
                         <div class="m-1 btn-coment">
-                            <input type="submit" class="btn btn-post" value="POST">
+                            <input type="button" class="btn btn-post send_comment" value="POST" data-id='{{$val->id}}'>
+                        </div>
+                    </form> -->
+                    <form method='post' class='comment_form'>
+                        <div class="m-1 input-comment">
+                            <input type="hidden" name="post_id" value='{{$val->id}}'>
+                            <input type="hidden" name="_token" value='{{ csrf_token() }}'>
+                            <input type="text" name='detail' class="form-control input-rounded detail_comment" placeholder="Add a comment" aria-label="Search" aria-describedby="">
+                        </div>
+                        <div class="m-1 btn-coment">
+                            <input type="submit" class="btn btn-post send_comment" value="comment">
                         </div>
                     </form>
                 </div>
@@ -255,15 +263,69 @@
             </div>
         </div>
     </div>
+
+    
 @endsection
 
 @section('jsbottom')
     <script>
 
+        $('.post_form').submit(function(event){
+            event.preventDefault();
+            var data = $(this).serialize();
+            $.ajax({
+                method : "POST",
+                url : url+"/post",
+                dataType : 'json',
+                data: data,
+            }).done(function(rec){
+                // prepend
+            });
+        });
+
+        $('.comment_form').submit(function(event){
+            event.preventDefault();
+            var data = $(this).serialize();
+            $.ajax({
+                method : "POST",
+                url : url+"/comment",
+                dataType : 'json',
+                data: data,
+            }).done(function(rec){
+                // prepend
+            });
+        });
+
+        $('.reply_form').submit(function(event){
+            event.preventDefault();
+            var data = $(this).serialize();
+            $.ajax({
+                method : "POST",
+                url : url+"/reply",
+                dataType : 'json',
+                data: data,
+            }).done(function(rec){
+                // prepend
+            });
+        });
+
         $('body').on('click', '.report_post', function () {
             var id = $(this).data('id');
             $('#post_id_for_report').val(id);
             $("#reportModal").modal('show');
+        });
+
+        $('.report_form').submit(function(event){
+            event.preventDefault();
+            var data = $(this).serialize();
+            $.ajax({
+                method : "POST",
+                url : url+"/reply",
+                dataType : 'json',
+                data: data,
+            }).done(function(rec){
+                // prepend
+            });
         });
 
         // get cursor position
@@ -285,66 +347,6 @@
             return false;
         })*/
         // end.get cursor position
-
-        // ajax post
-        /*$("#post").validate({
-            rules: {
-                num_doc: "required",
-                date_doc: "required",
-                department_id: "required",
-                user_recorder: "required",
-                user_recipient: "required",
-            },
-            messages: {
-                num_doc: "กรุณาระบุเลขที่เอกสาร",
-                date_doc: "กรุณาระบุวันที่เอกสาร",
-                department_id: "กรุณาเลือกแผนก",
-                user_recorder: "กรุณาเลือกผู้บันทึก",
-                user_recipient: "กรุณาเลือกผู้รับสินค้า",
-            },
-            errorElement: "span",
-            errorPlacement: function ( error, element ) {
-                error.addClass( "help-block" );
-                if ( element.prop( "type" ) === "checkbox" ) {
-                    error.insertAfter( element.parent( "label" ) );
-                } else {
-                    error.insertAfter( element );
-                }
-            },
-            highlight: function ( element, errorClass, validClass ) {
-                $( element ).parents('.form-group').addClass( "has-error" ).removeClass( "has-success" );
-            },
-            unhighlight: function (element, errorClass, validClass) {
-                $( element ).parents('.form-group').addClass( "has-success" ).removeClass( "has-error" );
-            },
-            submitHandler: function(form){
-                var btn = $(form).find('[type="submit"]');
-                $.ajax({
-                    method : "POST",
-                    url : url+"/post",
-                    dataType : 'json',
-                    data : $(form).serialize()
-                }).done(function(rec){
-                    if(rec.type == 'success'){
-                        $('#infoModal').modal('hide');
-                        swal({
-                            confirmButtonText:'ตกลง',title: rec.title,text: rec.text,type: rec.type
-                        }).then((rec) => {
-                            if(rec) {
-                                dataTableList.api().ajax.reload();
-                                form.reset();
-                                location.reload();
-                            }
-                        });
-                    }else{
-                        swal({
-                            confirmButtonText:'ตกลง',title: rec.title,text: rec.text,type: rec.type
-                        });
-                    }
-                });
-            }
-        });*/
-        // end.ajax post
 
     </script>
 @endsection
