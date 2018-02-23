@@ -8,8 +8,6 @@
 						<!-- Start Post -->
 						<!-- ##################### FIRST POST ############################ -->
 						<div class="card mb-4">
-
-
 							<h3 class="my-3 mx-3">
 								<i class="fa fa-cog fa-lg mt-4 profilesetting-icon-color"></i> Edit Profile</h3>
 							<h4 class="profilesetting-text-darkgray mx-3">Themes</h4>

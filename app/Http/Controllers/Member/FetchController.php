@@ -14,8 +14,7 @@
             ->where('posted_by',Auth::user()->id)
             ->get();
             $result['report_type'] = \App\Models\ReportType::get();
-            return view('Member.post',$result);
+            return view('Member.backup_main',$result);
         }
-
     }
 ?>

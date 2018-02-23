@@ -20,7 +20,7 @@
                     <div class="post-content">
                         <div class="px-2">
                             <div class="form-group">
-                                <textarea class='form-control' name='detail'></textarea>
+                                <textarea class="form-control post-box" name='detail'></textarea>
                             </div>
                         </div>
                         <div class="m-1">
@@ -64,29 +64,31 @@
                             </div>
                             <div class="action-more ml-auto">
                                 <div class="dropdown option-action-more">
-                                    <span class="dropdown-toggle dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
+                                    <span class="dropdown-toggle dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                                    </span>
                                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="#">Save post</a>
                                         <a class="dropdown-item" href="#">Copy link</a>
                                         <a class="dropdown-item" href="#">Delete post</a>
-                                        <a class="dropdown-item dropdown-item-last report_post" data-id='{{$val->id}}'>Report post</a>
-                                    </div>
+                                        <a class="dropdown-item dropdown-item-last" href="#">Report post</a>
+                                     </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="dropdown show font-header-date-post">
                             <label class="">{{$val->created_at}}</label>
-                                <a class="" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-caret-right" aria-hidden="true"></i> Public
-                                </a>
+                              <a class="" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                               <i class="fa fa-caret-right" aria-hidden="true"></i> Public
+                              </a>
 
-                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <a class="dropdown-item" href="#">Public</a>
                                 <a class="dropdown-item" href="#">Friends</a>
                                 <a class="dropdown-item" href="#">Spacific friends</a>
                                 <a class="dropdown-item" href="#">Only me</a>
-                                </div>
+                              </div>
                         </div>
                     </div>
                 </div>
@@ -99,7 +101,7 @@
                         <div class="p-2">
                             <a href="#" class="icon-like">
                                 <span class="icon-action">{{$val->liked}}</span>
-                            </a>                                        
+                            </a>
                         </div>
                         <div class="p-2">
                             <a href="#" class="icon-comment">
@@ -113,6 +115,7 @@
                         </div>
                     </div>
                 </div>
+
                 @foreach($val->getComment as $comment)
                     <div class="card-body-comment-lg">
                         <div class="m-2">
@@ -127,10 +130,11 @@
                                         <label class="font-header-friend-comment">{{$comment->getUser->name}}</label>
                                     </a>
                                 </div>
+                                <!-- Date friend comment -->
                                 <div class="dropdown show font-header-date-comment">
                                     <label class="date-comment">{{$comment->created_at}}</label>
                                         <a class="" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fa fa-caret-right" aria-hidden="true"></i>{{$val->getUser->name}}
+                                            {{$val->getUser->name}}
                                         </a>
 
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -140,26 +144,47 @@
                                             <a class="dropdown-item" href="#">Only me</a>
                                         </div>
                                 </div>
+                                <!-- End date friend comment -->
+
+                                <!-- Strat commemt option -->
                                 <div class="comment-action-more ml-auto">
                                     <div class="dropdown option-action-more">
                                         <span class="dropdown-toggle dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            
+
                                         </span>
                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item" href="#">Edit </a>
                                             <a class="dropdown-item" href="#">Delete </a>
                                             <a class="dropdown-item dropdown-item-last" href="#">Report </a>
-                                            </div>
+                                         </div>
                                     </div>
                                 </div>
+                                <!-- End comment option -->
                             </div>
                         </div>
-
-                        <!-- reply -->
                         <div class="mx-2 post-comment">
-                            <p>{{json_decode($comment->detail)}}</p>
+                            <p class="mb-0">{{json_decode($comment->detail)}}</p>
                             <div class="comment-reply">
                                 <a href="#" class="text-reply">reply</a>
+                                <div class="mb-4 mt-2 reply-box">
+                                    <div class="m-0">
+                                      <a href="#">
+                                        <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-comment" alt="Profile image">
+                                      </a>
+                                    </div>
+                                    <form method='post' class='reply_form'>
+                                        <input type="hidden" name="_token" value='{{ csrf_token() }}'>
+                                        <input type="hidden" name="post_id" value="{{$val->id}}">
+                                        <input type="hidden" name="comment_id" value="{{$comment->id}}">
+                                        <input type="hidden" name="partner_id" value="{{$comment->member_id}}">
+                                        <div class="m-1 input-comment">
+                                            <input type="text" class="form-control input-rounded detail_report" name='message' placeholder="Add a reply" aria-label="Search" aria-describedby="">
+                                        </div>
+                                        <div class="m-1 btn-reply-cmt">
+                                            <input type="submit" class="btn btn-post reply-btn send_reply" value="REPLY">
+                                        </div>
+                                    </form>
+                                </div>
                                 @foreach($comment->getReply as $reply)
                                     <div class="box-reply">
                                         <div class="m-2">
@@ -180,48 +205,37 @@
                                                 </div>
                                                 <!-- End date friend comment -->
 
-                                                <!-- Start comment option -->
+                                                <!-- Strat commemt option -->
                                                 <div class="comment-action-more ml-auto">
                                                     <div class="dropdown option-action-more">
-                                                        <span class="dropdown-toggle reply-dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            
-                                                        </span>
+                                                        <span class="dropdown-toggle reply-dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
                                                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                                            <a class="dropdown-item" href="#">Edit</a>
-                                                            <a class="dropdown-item" href="#">Delete</a>
-                                                        </div>
+                                                            <a class="dropdown-item" href="#">Edit </a>
+                                                            <a class="dropdown-item" href="#">Delete </a>
+                                                         </div>
                                                     </div>
                                                 </div>
                                                 <!-- End comment option -->
-                                                <!-- Start post comment -->
-                                                <div class="mx-2 post-comment-reply">
-                                                    <p class="mb-0">{{json_decode($reply->message)}}</p>
-                                                </div>
-                                                <!-- End post comment -->
+
                                             </div>
+                                            <div class="mx-2 post-comment-reply">
+                                                <p class="mb-0">{{json_decode($reply->message)}}</p>
+                                                <a href="#" class="text-reply">reply</a>
+                                            </div>
+                                                    <!-- End post comment -->
                                         </div>
                                     </div>
                                 @endforeach
-                                <form method='post' class='reply_form'>
-                                    <input type="hidden" name="_token" value='{{ csrf_token() }}'>
-                                    <input type="hidden" name="post_id" value="{{$val->id}}">
-                                    <input type="hidden" name="comment_id" value="{{$comment->id}}">
-                                    <input type="hidden" name="partner_id" value="{{$comment->member_id}}">
-                                    <div class="m-1 input-comment">
-                                        <input type="text" class="form-control input-rounded detail_report" name='message' placeholder="Add a reply" aria-label="Search" aria-describedby="">
-                                    </div>
-                                    <div class="m-1 btn-coment">
-                                        <input type="submit" class="btn btn-post send_reply" value="reply">
-                                    </div>
-                                </form>
                             </div>
                         </div>
                     </div>
                 @endforeach
+
+                <!-- Footer Card / Comment section -->
                 <div class="card-footer-lg">
                     <div class="m-0">
                         <a href="#">
-                            <img src="http://localhost/socialpike/public/assets/member/assets/images/girl.jpg" class="img-fluid rounded-circle image-comment" alt="Profile image">
+                            <img src="{{$reply->getUser->avatar}}" class="img-fluid rounded-circle image-comment" alt="Profile image">
                         </a>
                     </div>
                     <form method='post' class='comment_form'>
@@ -231,7 +245,7 @@
                             <input type="text" name='detail' class="form-control input-rounded detail_comment" placeholder="Add a comment" aria-label="Search" aria-describedby="">
                         </div>
                         <div class="m-1 btn-coment">
-                            <input type="submit" class="btn btn-post send_comment" value="comment">
+                            <input type="submit" class="btn btn-post send_comment" value="POST">
                         </div>
                     </form>
                 </div>

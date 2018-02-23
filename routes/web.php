@@ -52,6 +52,8 @@ Route::post('/reply', 'Member\ReplyController@store');
 Route::post('/comment', 'Member\CommentController@store');
 Route::post('/report', 'Member\ReportController@store');
 Route::get('/find_report/{post_id}', 'Member\ReportController@find');
+Route::get('/profile', 'Member\UserController@index');
+Route::post('/profile', 'Member\UserController@store');
 
 Route::group(['middleware' => 'member'], function(){
     Route::get('/first', function(){
