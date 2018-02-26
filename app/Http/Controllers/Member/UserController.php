@@ -10,49 +10,65 @@
 
     class UserController extends Controller
     {
+
         public function index(){
-            $data['user'] = User::where('id',Auth::user()->id)->first();
+            $id = Auth::user()->id;
+            $data['school'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>1])->orderBy('id','DESC')->get();
+            $data['city'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>0])->orderBy('id','DESC')->get();
+            $data['university'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>2])->orderBy('id','DESC')->get();
+            $data['workplace'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>3])->orderBy('id','DESC')->get();
+            $data['user'] = User::where('id',$id)->first();
+            $name = explode(' ',$data['user']['name']);
+            $data['user']['firstname'] = $name[0];
+            $data['user']['lastname'] = $name[1];
+            $birthday = explode('-', $data['user']['birthday']);
+            $data['user']['day'] = $birthday[2];
+            $data['user']['month'] = $birthday[1];
+            $data['user']['year'] = $birthday[0];
             return view('Member.backup_edit_profile',$data);
         }
 
+        public function info(){
+            $id = Auth::user()->id;
+            $data['user'] = User::where('id',$id)->first();
+            $data['city'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>0])->orderBy('id','DESC')->get();
+            $data['university'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>2])->orderBy('id','DESC')->get();
+            $data['workplace'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>3])->orderBy('id','DESC')->get();
+            return view('Member.backup_info',$data);
+        }
+
         public function store(Request $request){
+            $id = $request->id;
+            $place_type_id = $request->place_type_id;
+            $main_google = $request->main_google;
+            $position = $request->position;
+            $duration = $request->duration;
             $user_id = Auth::user()->id;
-            $school = $request->school;
-            for($i=0;$i<count($request->school);$i++){
-                if($school[$i]!=null){
-                    $insert_userplace[] = [
-                        'user_id' => $user_id,
-                        'place_type_id' => 1,
-                        'id_google' => $school[$i]
-                    ];
-                }
-            }
-            $university = $request->university;
-            for($i=0;$i<count($request->university);$i++){
-                if($university[$i]!=null){
-                    $insert_userplace[] = [
-                        'user_id' => $user_id,
-                        'place_type_id' => 2,
-                        'id_google' => $university[$i]
-                    ];
-                }
-            }
-            $workplace = $request->workplace;
-            for($i=0;$i<count($request->workplace);$i++){
-                if($workplace[$i]!=null){
-                    $insert_userplace[] = [
-                        'user_id' => $user_id,
-                        'place_type_id' => 3,
-                        'id_google' => $workplace[$i]
-                    ];
-                }
-            }
-            $insert['birthday'] = $request->year.'-'.$request->month.'-'.$request->day;
-            $insert['name'] = $request->firstname.' '.$request->lastname;
-            $insert['mobile'] = $request->mobile;
+            $update['birthday'] = $request->year.'-'.$request->month.'-'.$request->day;
+            $update['name'] = $request->firstname.' '.$request->lastname;
+            $update['mobile'] = $request->mobile;
+            $update['sex'] = $request->sex;
+            $update['theme'] = $request->theme;
+            $update['marital_status_id'] = $request->marital_status_id;
             \DB::beginTransaction();
             try {
-                UserPlace::insert($insert_userplace);
+                User::where('id',$user_id)->update($update);
+                for ($i=0; $i <count($id) ; $i++) {
+                    $userplace = array(
+                        'place_type_id' => $place_type_id[$i],
+                        'user_id' => $user_id,
+                        'main_google' => $main_google[$i],
+                        'position' => $position[$i],
+                        'duration' => $duration[$i]
+                    );
+                    if($id[$i]==0){
+                        $userplace['created_at'] = date('Y-m-d H:i:s');
+                        UserPlace::insert($userplace);
+                    }else{
+                        $userplace['updated_at'] = date('Y-m-d H:i:s');
+                        UserPlace::where('id',$id[$i])->update($userplace);
+                    }
+                }
                 \DB::commit();
                 $result['status'] = 1;
             } catch (Exception $e){

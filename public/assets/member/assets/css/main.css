@@ -1555,6 +1555,16 @@ hr {
       margin-left: 80%;
       width: 100px;
   }
+  .profilesetting-input-work-place {
+    width: 60%;
+    border-radius: 30px;
+    border: 1px solid #ced4da;
+    height: 40px;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+  }
 
 /*--------------- End Profile-setting Page ------------*/
 

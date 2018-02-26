@@ -27,9 +27,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/main', function(){
     return view('Member.main');
 });
-Route::get('/info', function(){
-    return view('Member.info');
-});
 Route::get('/friend', function(){
     return view('Member.friend');
 });
@@ -54,6 +51,7 @@ Route::post('/report', 'Member\ReportController@store');
 Route::get('/find_report/{post_id}', 'Member\ReportController@find');
 Route::get('/profile', 'Member\UserController@index');
 Route::post('/profile', 'Member\UserController@store');
+Route::get('/info', 'Member\UserController@info');
 
 Route::group(['middleware' => 'member'], function(){
     Route::get('/first', function(){
