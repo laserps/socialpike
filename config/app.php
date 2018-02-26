@@ -187,6 +187,9 @@ return [
         //Custom
         App\Providers\Custom\ProfileServiceProvider::class,
         Unicodeveloper\Emoji\EmojiServiceProvider::class,
+
+        //GoogleApi
+        SKAgarwal\GoogleApi\ServiceProvider::class,
     ],
 
     /*
@@ -245,7 +248,7 @@ return [
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
         'Emoji' => Unicodeveloper\Emoji\Facades\Emoji::class,
-        
+        'GooglePlaces' => SKAgarwal\GoogleApi\Facade::class,
     ],
 
 ];
