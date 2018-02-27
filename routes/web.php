@@ -20,25 +20,20 @@ Route::get('/logout',function(){
 
 
 Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/', function(){
-        return view('welcome');
-    });
+
 Route::group(['middleware' => 'member'], function(){
-    // Route::get('/', function(){
-    //     return view('welcome');
-    // });
-    //Route::resource('/',);
+    Route::get('/main', function(){
+        return view('Member.main');
+    });
+
+    Route::resource('/','Member\MainController');
 
     Route::get('/first', function(){
         return view('Member.main');
     });
-    
-    Route::get('/main', function(){
-        return view('Member.main');
-    });
-    
+
     Route::get('/friend','Member\FriendController@getFriend');
-    
+
     Route::get('/album', function(){
         return view('Member.album');
     });
@@ -51,7 +46,7 @@ Route::group(['middleware' => 'member'], function(){
     Route::get('/edit_profile', function(){
         return view('Member.edit_profile');
     });
-    
+
     Route::get('/wall','Member\FetchController@wall');
     Route::post('/post', 'Member\PostController@store');
     Route::post('/reply', 'Member\ReplyController@store');

@@ -16,7 +16,7 @@ class MemberAuthenticate
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::guard('member')->check()) {
+        if (!Auth::guard('web')->check()) {
             return redirect()->guest('/login');
         }
 
