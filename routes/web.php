@@ -56,7 +56,6 @@ Route::get('/', function(){
     Route::post('/profile', 'Member\UserController@store');
     Route::get('/info', 'Member\UserController@info');
     Route::get('/search_place','Member\UserController@search_place');
-});
 
 /*Route::group(['middleware' => 'member'], function(){
     Route::get('/first', function(){

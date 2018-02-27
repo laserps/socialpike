@@ -80,13 +80,18 @@
         }
 
         function search_place(Request $request){
-            $keyword = $request->keyword;
+            /*$keyword = $request['q'];
             $googlePlaces = new PlacesApi('AIzaSyDykbjLvRQk0S54PcHHBFpANU5385S-hYA');
             $response = $googlePlaces->placeAutocomplete($keyword);
             foreach($response['predictions'] as $row){
                 $test[] = $row;
                 $data[$row['place_id']] = $row['structured_formatting']['secondary_text'];
-            }
+            }*/
+            $data[] = array(
+                'value'=> 'test',
+                'data'=> 1
+            );
+            // $data = array(1,2,3);
             return $data;
         }
     }

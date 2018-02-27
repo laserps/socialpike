@@ -2,6 +2,7 @@
 
 @section('cssbottom')
 <link rel="stylesheet" type="text/css" href="{{asset('assets/global/plugins/bootstrap-daterangepicker-master/daterangepicker.css')}}">
+<link rel="stylesheet" type="text/css" href="{{asset('assets/member/jQuery-Autocomplete-master/jquery.auto-complete.css')}}">
 @endsection
 
 @section('content')
@@ -301,7 +302,7 @@
 					<!-- end.user place -->
 
 					<div class="col-md-12 my-3">
-						<input type="text" name="country" id="autocomplete"/>
+						<input type="text" name="q" id="autocomplete"/>
 						<button type='submit' class="btn profilesetting-bnt-save btn-sm"> Save </button>
 					</div>
 				</div>
@@ -314,8 +315,8 @@
 @section('jsbottom')
 <script type="text/javascript" src="{{asset('assets/global/plugins/bootstrap-daterangepicker-master/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/global/plugins/bootstrap-daterangepicker-master/daterangepicker.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/member/jQuery-Autocomplete-master/src/jquery.autocomplete.js')}}"></script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDykbjLvRQk0S54PcHHBFpANU5385S-hYA&libraries=places"></script>
+<script type="text/javascript" src="{{asset('assets/member/jQuery-Autocomplete-master/jquery.auto-complete.js')}}"></script>
+<!-- <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDykbjLvRQk0S54PcHHBFpANU5385S-hYA&libraries=places"></script> -->
 <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrLKKEeiPzHT-H9iu1JtIEju_FbH9Bz4M&callback=initMap" async defer></script> -->
 <script>
 
@@ -421,7 +422,7 @@
         });
     });
 
-    var timer;
+    /*var timer;
 
     $('body').on('keyup','.school',function(){
     	clearTimeout(timer);
@@ -437,20 +438,23 @@
 	        	// var appendTo = $( ".school" ).autocomplete( "option", "appendTo" );
 	        });
     	},1500);
-    });
+    });*/
 
-    var countries = [
-   { value: 'Andorra', data: 'AD' },
-   { value: 'Zimbabwe', data: 'ZZ' }
-   ];
+    /*var countries = [
+	   { value: 'Andorra', data: 'AD' },
+	   { value: 'Zimbabwe', data: 'ZZ' }
+	];*/
 
-$('#autocomplete').autocomplete({
-    lookup: countries,
-    onSelect: function (suggestion) {
-    	console.log(countries);
-        // alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
-    }
-});
+    $('input[name="q"]').autoComplete({
+    	delay: 2000,
+	    source: function(term, response){
+	        $.getJSON(url+"/search_place", { q: term }, function(data){ 
+	        	response(data);
+		    	// console.log(data);
+		    	// console.log(countries);
+	        });
+	    }
+	});
 
 </script>
 @endsection
