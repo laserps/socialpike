@@ -22,6 +22,7 @@ Route::get('/', function(){
     return view('welcome');
 });
 
+
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/main', function(){
@@ -52,6 +53,7 @@ Route::get('/find_report/{post_id}', 'Member\ReportController@find');
 Route::get('/profile', 'Member\UserController@index');
 Route::post('/profile', 'Member\UserController@store');
 Route::get('/info', 'Member\UserController@info');
+Route::get('/search_place','Member\UserController@search_place');
 
 Route::group(['middleware' => 'member'], function(){
     Route::get('/first', function(){
