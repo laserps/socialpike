@@ -27,9 +27,9 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/main', function(){
     return view('Member.main');
 });
-Route::get('/friend', function(){
-    return view('Member.friend');
-});
+
+Route::get('/friend','Member\FriendController@getFriend');
+
 Route::get('/album', function(){
     return view('Member.album');
 });

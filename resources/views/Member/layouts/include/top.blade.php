@@ -19,12 +19,12 @@
                             </form>
                             <div class="p-2">
                                 <div class="nav-top-image">
-                                    <img src="{{asset('assets/member/assets/images/girl.jpg')}}" class="img-fluid rounded-circle " alt="Profile image">
+                                    <img src="{{$profile->avatar}}" class="img-fluid rounded-circle " alt="Profile image">
                                 </div>
                             </div>
                             <div class="py-2">
                                 <a class="nav-link px-0" href="#">
-                                    <h5 class="my-1">Allison Clayborne</h5>
+                                    <h5 class="my-1">{{$profile->name}}</h5>
                                 </a>
                             </div>
 
