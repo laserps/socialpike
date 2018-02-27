@@ -247,8 +247,8 @@ return [
 
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
 
-        'Emoji' => Unicodeveloper\Emoji\Facades\Emoji::class,
-        'GooglePlaces' => SKAgarwal\GoogleApi\Facade::class,
+        'Emoji' => Unicodeveloper\Emoji\Facades\Emoji::class/*,
+        'GooglePlaces' => SKAgarwal\GoogleApi\Facade::class,*/
     ],
 
 ];

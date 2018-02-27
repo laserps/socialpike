@@ -7,6 +7,7 @@
     use Auth;
     use App\Models\User;
     use App\Models\UserPlace;
+    use SKAgarwal\GoogleApi\PlacesApi;
 
     class UserController extends Controller
     {
@@ -76,6 +77,17 @@
                 $result['status'] = 0;
             }
             return $result;
+        }
+
+        function search_place(Request $request){
+            $keyword = $request->keyword;
+            $googlePlaces = new PlacesApi('AIzaSyDykbjLvRQk0S54PcHHBFpANU5385S-hYA');
+            $response = $googlePlaces->placeAutocomplete($keyword);
+            foreach($response['predictions'] as $row){
+                $test[] = $row;
+                $data[$row['place_id']] = $row['structured_formatting']['secondary_text'];
+            }
+            return $data;
         }
     }
 ?>
