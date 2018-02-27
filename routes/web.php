@@ -26,13 +26,11 @@ Route::group(['middleware' => 'member'], function(){
         return view('Member.main');
     });
 
-    Route::resource('/','Member\MainController');
-
     Route::get('/first', function(){
         return view('Member.main');
     });
 
-    Route::get('/friend','Member\FriendController@getFriend');
+    Route::resource('/','Member\FriendController');
 
     Route::get('/album', function(){
         return view('Member.album');
