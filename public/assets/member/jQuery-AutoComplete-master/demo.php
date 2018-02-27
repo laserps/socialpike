@@ -57,6 +57,12 @@
         &nbsp;
         <a style="margin:5px 0" href="https://github.com/Pixabay/jQuery-autoComplete" class="pure-button button-lg">View on GitHub</a>
     </div>
+
+
+    <form >
+        <input autofocus type="text" name="qqq" placeholder="Programming languages ..." style="width:100%;max-width:600px;outline:0">
+    </form>
+
     <form onsubmit="$('#hero-demo').blur();return false;" class="pure-form" style="border-top: 1px solid #eee;border-bottom:1px solid #eee;background:#fafafa;margin:30px 0;padding:20px 10px;text-align:center">
         <input id="hero-demo" autofocus type="text" name="q" placeholder="Programming languages ..." style="width:100%;max-width:600px;outline:0">
     </form>
@@ -312,6 +318,13 @@ $(<b>'input[name="q"]'</b>).autoComplete({
                 <iframe style="float:left;margin-right:15px" src="//ghbtns.com/github-btn.html?user=Pixabay&repo=jQuery-autoComplete&type=fork&count=true" allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>\
             ');
         }
+    </script>
+    <script>
+        $('input[name="q"]').autoComplete({
+            source: function(term, response){
+                $.getJSON('/some/ajax/url/', { q: term }, function(data){ response(data); });
+            }
+        });
     </script>
 </body>
 </html>
