@@ -18,45 +18,49 @@ Route::get('/logout',function(){
     return \Auth::logout();
 });
 
-Route::get('/', function(){
-    return view('welcome');
-});
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/main', function(){
-    return view('Member.main');
-});
-
-Route::get('/friend','Member\FriendController@getFriend');
-
-Route::get('/album', function(){
-    return view('Member.album');
-});
-Route::get('/album_edit', function(){
-    return view('Member.album_edit');
-});
-Route::get('/photo', function(){
-    return view('Member.photo');
-});
-Route::get('/edit_profile', function(){
-    return view('Member.edit_profile');
-});
-
-Route::get('/wall','Member\FetchController@wall');
-Route::post('/post', 'Member\PostController@store');
-Route::post('/reply', 'Member\ReplyController@store');
-Route::post('/comment', 'Member\CommentController@store');
-Route::post('/report', 'Member\ReportController@store');
-Route::get('/find_report/{post_id}', 'Member\ReportController@find');
-Route::get('/profile', 'Member\UserController@index');
-Route::post('/profile', 'Member\UserController@store');
-Route::get('/info', 'Member\UserController@info');
-
+    Route::get('/', function(){
+        return view('welcome');
+    });
 Route::group(['middleware' => 'member'], function(){
+    // Route::get('/', function(){
+    //     return view('welcome');
+    // });
+    //Route::resource('/',);
+
     Route::get('/first', function(){
         return view('Member.main');
     });
+    
+    Route::get('/main', function(){
+        return view('Member.main');
+    });
+    
+    Route::get('/friend','Member\FriendController@getFriend');
+    
+    Route::get('/album', function(){
+        return view('Member.album');
+    });
+    Route::get('/album_edit', function(){
+        return view('Member.album_edit');
+    });
+    Route::get('/photo', function(){
+        return view('Member.photo');
+    });
+    Route::get('/edit_profile', function(){
+        return view('Member.edit_profile');
+    });
+    
+    Route::get('/wall','Member\FetchController@wall');
+    Route::post('/post', 'Member\PostController@store');
+    Route::post('/reply', 'Member\ReplyController@store');
+    Route::post('/comment', 'Member\CommentController@store');
+    Route::post('/report', 'Member\ReportController@store');
+    Route::get('/find_report/{post_id}', 'Member\ReportController@find');
+    Route::get('/profile', 'Member\UserController@index');
+    Route::post('/profile', 'Member\UserController@store');
+    Route::get('/info', 'Member\UserController@info');
 });
 
 // Route::get('/countstr',function(){
