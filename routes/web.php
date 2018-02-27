@@ -18,12 +18,17 @@ Route::get('/logout',function(){
     return \Auth::logout();
 });
 
-Route::get('/', function(){
-    return view('welcome');
-});
 
 
 Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/', function(){
+        return view('welcome');
+    });
+Route::group(['middleware' => 'member'], function(){
+    // Route::get('/', function(){
+    //     return view('welcome');
+    // });
+    //Route::resource('/',);
 
 Route::get('/main', function(){
     return view('Member.main');
