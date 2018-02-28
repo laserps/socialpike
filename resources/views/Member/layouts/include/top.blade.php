@@ -54,7 +54,7 @@
 	  					<div class="row">
 	  						<div class="col-md-8 ml-auto displayTitle">
 	  							<div class="displayName">
-	  								<h2>Allison Clayborne</h2>
+	  								<h2>{{$user->name}}</h2>
 	  							</div>
 	  							<div class="displayOption ml-auto d-flex flex-row">
 	  								<div class="btn-header-direct-msg">
@@ -70,7 +70,7 @@
 	  			</div>
 	  			<div class="container" style="position: relative;">
 	  				<div class="image">
-						<img src="{{asset('assets/member/assets/images/girl.jpg')}}" alt="Circle Image" class="rounded-circle img-fluid">
+						<img src="{{$user->avatar}}" alt="Circle Image" class="rounded-circle img-fluid">
 					</div>
 	  			</div>
 			</div>  			

@@ -6,6 +6,7 @@
     use App\Http\Controllers\Controller;
     use Auth;
     use App\Models\User;
+    use App\Models\Post;
     use App\Models\UserPlace;
     use SKAgarwal\GoogleApi\PlacesApi;
 
@@ -93,6 +94,16 @@
             );
             // $data = array(1,2,3);
             return $data;
+        }
+
+        function search_friend($name){
+            $name = str_replace("."," ",$name);
+            $result['user'] = User::where('name',$name)->first();
+            $result['result'] = Post::with(['getComment.getUser','getUser','getComment.getReply','getComment.getReply.getUser'])
+            ->where('posted_at',$result['user']->id)
+            ->get();
+            $result['report_type'] = \App\Models\ReportType::get();
+            return view('Member.backup_main',$result);
         }
     }
 ?>

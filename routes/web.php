@@ -55,6 +55,9 @@ Route::group(['middleware' => 'member'], function(){
     Route::post('/profile', 'Member\UserController@store');
     Route::get('/info', 'Member\UserController@info');
 
+    Route::get('/{name}', 'Member\UserController@search_friend');
+});
+
 // Route::get('/countstr',function(){
 //     $str ="https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/20108240_1613406825336653_8344623303259921044_n.jpg?oh=6f22318a227432fdc7068aa8a23270b6&oe=5B0C2239";
 //     return strlen($str);
