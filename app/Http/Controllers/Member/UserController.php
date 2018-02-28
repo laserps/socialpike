@@ -79,15 +79,27 @@
             return $result;
         }
 
-        function search_place(Request $request){
-            $keyword = $request->keyword;
+        // function search_place(Request $request){
+        //     $keyword = $request->keyword;
+        //     $googlePlaces = new PlacesApi('AIzaSyDykbjLvRQk0S54PcHHBFpANU5385S-hYA');
+        //     $response = $googlePlaces->placeAutocomplete('workbythai');
+        //     foreach($response['predictions'] as $row){
+        //         $test[] = $row;
+        //         $data[$row['place_id']] = $row['structured_formatting']['secondary_text'];
+        //     }
+        //     return $data;
+        // }
+
+        function search_place($keyword){
+            //$keyword = $request->keyword;
             $googlePlaces = new PlacesApi('AIzaSyDykbjLvRQk0S54PcHHBFpANU5385S-hYA');
             $response = $googlePlaces->placeAutocomplete($keyword);
             foreach($response['predictions'] as $row){
-                $test[] = $row;
-                $data[$row['place_id']] = $row['structured_formatting']['secondary_text'];
+                $test[] = $row['description'];
+                // $data[$row['place_id']] = $row['structured_formatting']['secondary_text'];
+                //$data[] = $row['structured_formatting']['secondary_text'];
             }
-            return $data;
+            return $test;
         }
     }
 ?>

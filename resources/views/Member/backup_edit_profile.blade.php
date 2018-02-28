@@ -1,7 +1,10 @@
 @extends('Member.layouts.app')
 
 @section('cssbottom')
+<meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/global/plugins/bootstrap-daterangepicker-master/daterangepicker.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/easy-autocomplete/dist/easy-autocomplete.themes.min.css')}}">
+
 @endsection
 
 @section('content')
@@ -161,7 +164,7 @@
 									<input type="hidden" name="id[]" value="{{$val->id}}">
 									<input type="hidden" name="position[]">
 									<input type="hidden" name="duration[]">
-									<input type="text" class="profilesetting-form-control-input-frome school mt-3" name='main_google[]' value='{{$val->main_google}}'>
+									<input type="text" class="profilesetting-form-control-input-frome school mt-3 typehead" name='main_google[]' value='{{$val->main_google}}'>
 								@endforeach
 							</div>
 						</div>
@@ -176,7 +179,7 @@
 									<div class='input_div'>
 										<input type="hidden" name="place_type_id[]" value="2">
 										<input type="hidden" name="id[]" value="{{$val->id}}">
-										<input type="text" class="profilesetting-input-work-place mt-3 university" value="{{$val->main_google}}" name="main_google[]" style="width: 60%">&nbsp;&nbsp;&nbsp;
+										<input type="text" class="profilesetting-input-work-place mt-3 university typeahead" value="{{$val->main_google}}" name="main_google[]" style="width: 60%">&nbsp;&nbsp;&nbsp;
 								    	<input type="text" class="profilesetting-input-work-place mt-3" value="{{$val->position}}" name="position[]" style="width: 30%">
 									</div>
 									<div class='duration_div'>
@@ -196,7 +199,7 @@
 									<div class='input_div'>
 										<input type="hidden" name="place_type_id[]" value="3">
 										<input type="hidden" name="id[]" value="{{$val->id}}">
-										<input type="text" class="profilesetting-input-work-place mt-3 workplace" value="{{$val->main_google}}" name="main_google[]" style="width: 60%">&nbsp;&nbsp;&nbsp;	
+										<input type="text" class="profilesetting-input-work-place mt-3 workplace typeahead" value="{{$val->main_google}}" name="main_google[]" style="width: 60%">&nbsp;&nbsp;&nbsp;	
 								    	<input type="text" class="profilesetting-input-work-place mt-3" value="{{$val->position}}" name="position[]" style="width: 30%">
 									</div>
 									<div class='duration_div'>
@@ -216,7 +219,7 @@
 									<div class='input_div'>
 										<input type="hidden" name="place_type_id[]" value="0">
 										<input type="hidden" name="id[]" value="{{$val->id}}">
-										<input type="text" class="profilesetting-input-work-place mt-3 city" value="{{$val->main_google}}" name="main_google[]" style="width: 60%">&nbsp;&nbsp;&nbsp;	
+										<input type="text" class="profilesetting-input-work-place mt-3 city typehead" value="{{$val->main_google}}" name="main_google[]" style="width: 60%">&nbsp;&nbsp;&nbsp;	
 								    	<input type="text" class="profilesetting-input-work-place mt-3" value="{{$val->position}}" name="position[]" style="width: 30%">
 									</div>
 									<div class='duration_div'>
@@ -300,10 +303,9 @@
 					</div> -->
 					<!-- end.user place -->
 
-					<div class="col-md-12 my-3">
-						<input type="text" name="country" id="autocomplete"/>
-						<button type='submit' class="btn profilesetting-bnt-save btn-sm"> Save </button>
-					</div>
+					<!-- <input class="typeahead" style="margin:0px auto;width:300px;" type="text">
+					<input class="typeahead" style="margin:0px auto;width:300px;" type="text"> -->
+
 				</div>
 			</form>
 			<!-- end. input -->
@@ -314,11 +316,17 @@
 @section('jsbottom')
 <script type="text/javascript" src="{{asset('assets/global/plugins/bootstrap-daterangepicker-master/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('assets/global/plugins/bootstrap-daterangepicker-master/daterangepicker.js')}}"></script>
-<script type="text/javascript" src="{{asset('assets/member/jQuery-Autocomplete-master/src/jquery.autocomplete.js')}}"></script>
+
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDykbjLvRQk0S54PcHHBFpANU5385S-hYA&libraries=places"></script>
 <!-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCrLKKEeiPzHT-H9iu1JtIEju_FbH9Bz4M&callback=initMap" async defer></script> -->
-<script>
 
+<!-- Import typeahead.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
+<!-- <script src="{{asset('assets/global/plugins/typeahead.js-master/dist/typehead.js')}}"></script> -->
+<!-- <script src="{{asset('assets/global/plugins/typeahead.js-master/dist/typeahead.jquery.js')}}"></script> -->
+
+<script>
+	var path = "{{url('/search_place')}}/";
     $('.date_duration').daterangepicker();
 	
 	$('body').on('click','#add_school',function(event){
@@ -326,10 +334,20 @@
 		var school = 
 			'<input type="hidden" name="place_type_id[]" value="1">\
 			<input type="hidden" name="id[]" value="0">\
-			<input type="text" class="profilesetting-form-control-input-frome school mt-3" name="main_google[]">\
+			<input type="text" class="profilesetting-form-control-input-frome school mt-3 typehead" name="main_google[]">\
 			<input type="hidden" name="duration[]">\
 			<input type="hidden" name="position[]">';
+
 		$('.school_div').prepend(school);
+		var path = "{{url('/search_place')}}/";
+		$('input.typehead').typeahead({
+			source:  function (query, process) {
+				return $.get(path+query,function (data) {
+					return process(data);
+				});
+			},
+			delay: 500, 
+		});
 	});
 
 	$('body').on('click','#add_university',function(event){
@@ -338,7 +356,7 @@
 			'<div class="input_div">\
 				<input type="hidden" name="place_type_id[]" value="2">\
 				<input type="hidden" name="id[]" value="0">\
-				<input type="text" class="profilesetting-input-work-place mt-3 university" name="main_google[]" style="width: 60%">&nbsp;&nbsp;&nbsp;\
+				<input type="text" class="profilesetting-input-work-place mt-3 university typehead" name="main_google[]" style="width: 60%">&nbsp;&nbsp;&nbsp;\
 		    	<input type="text" class="profilesetting-input-work-place mt-3" name="position[]" style="width: 30%">\
 			</div>\
 			<div class="duration_div">\
@@ -346,6 +364,15 @@
 			</div>';
 		$('.university_div').prepend(university);
 		$('.date_duration').daterangepicker();
+		var path = "{{url('/search_place')}}/";
+		$('input.typehead').typeahead({
+			source:  function (query, process) {
+				return $.get(path+query,function (data) {
+					return process(data);
+				});
+			},
+			delay: 500, 
+		});
 	});
 	
 	$('body').on('click','#add_workplace',function(event){
@@ -354,7 +381,7 @@
 			'<div class="input_div">\
 				<input type="hidden" name="place_type_id[]" value="3">\
 				<input type="hidden" name="id[]" value="0">\
-				<input type="text" class="profilesetting-input-work-place mt-3 workplace" name="main_google[]" style="width: 60%">&nbsp;&nbsp;&nbsp;\
+				<input type="text" class="profilesetting-input-work-place mt-3 workplace typehead" name="main_google[]" style="width: 60%">&nbsp;&nbsp;&nbsp;\
 		    	<input type="text" class="profilesetting-input-work-place mt-3" name="position[]" style="width: 30%">\
 			</div>\
 			<div class="duration_div">\
@@ -362,6 +389,15 @@
 			</div>';
 		$('.workplace_div').prepend(workplace);
 		$('.date_duration').daterangepicker();
+		var path = "{{url('/search_place')}}/";
+		$('input.typehead').typeahead({
+			source:  function (query, process) {
+				return $.get(path+query,function (data) {
+					return process(data);
+				});
+			},
+			delay: 500, 
+		});
 	});
 
 	$('body').on('click','#add_city',function(event){
@@ -370,7 +406,7 @@
 			'<div class="input_div">\
 				<input type="hidden" name="place_type_id[]" value="0">\
 				<input type="hidden" name="id[]" value="0">\
-				<input type="text" class="profilesetting-input-work-place mt-3 city" name="main_google[]" style="width: 60%">&nbsp;&nbsp;&nbsp;\
+				<input type="text" class="profilesetting-input-work-place mt-3 city typehead" name="main_google[]" style="width: 60%">&nbsp;&nbsp;&nbsp;\
 		    	<input type="text" class="profilesetting-input-work-place mt-3" name="position[]" style="width: 30%">\
 			</div>\
 			<div class="duration_div">\
@@ -378,6 +414,15 @@
 			</div>';
 		$('.city_div').prepend(city);
 		$('.date_duration').daterangepicker();
+		var path = "{{url('/search_place')}}/";
+		$('input.typehead').typeahead({
+			source:  function (query, process) {
+				return $.get(path+query,function (data) {
+					return process(data);
+				});
+			},
+			delay: 500, 
+		});
 	});
 
 	/*$('body').on('click','#add_address',function(event){
@@ -423,34 +468,36 @@
 
     var timer;
 
-    $('body').on('keyup','.school',function(){
+    $('body').on('keyup','#schoolss',function(){
+		//alert($(this).val());
     	clearTimeout(timer);
-    	var data = {keyword:$(this).val()};
-    	// var data['keyword'] = $(this).val();
+		var keyword = $(this).val();
+		console.log("keyword : "+keyword);
     	timer=setTimeout(function(){
     		$.ajax({
+				headers: {
+			        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			    },
 	            method : "get",
-	            url : url+"/search_place",
+	            url : url+"/search_place/"+keyword,
 	            dataType : 'json',
-	            data: data,
+	            data: keyword
 	        }).done(function(rec){
-	        	// var appendTo = $( ".school" ).autocomplete( "option", "appendTo" );
+				// var appendTo = $( ".school" ).autocomplete( "option", "appendTo" );
+				console.log(rec);
 	        });
     	},1500);
+	});
+
+    
+    $('input.typeahead').typeahead({
+        source:  function (query, process) {
+        	return $.get(path+query,function (data) {
+                return process(data);
+            });
+		},
+		delay: 500, 
     });
-
-    var countries = [
-   { value: 'Andorra', data: 'AD' },
-   { value: 'Zimbabwe', data: 'ZZ' }
-   ];
-
-$('#autocomplete').autocomplete({
-    lookup: countries,
-    onSelect: function (suggestion) {
-    	console.log(countries);
-        // alert('You selected: ' + suggestion.value + ', ' + suggestion.data);
-    }
-});
 
 </script>
 @endsection

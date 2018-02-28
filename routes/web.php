@@ -18,7 +18,6 @@ Route::get('/logout',function(){
     return \Auth::logout();
 });
 
-
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'member'], function(){
@@ -54,9 +53,8 @@ Route::group(['middleware' => 'member'], function(){
     Route::get('/profile', 'Member\UserController@index');
     Route::post('/profile', 'Member\UserController@store');
     Route::get('/info', 'Member\UserController@info');
-});
+    //Route::get('/search_place', 'Member\UserController@search_place');
 
-// Route::get('/countstr',function(){
-//     $str ="https://scontent.xx.fbcdn.net/v/t1.0-1/p200x200/20108240_1613406825336653_8344623303259921044_n.jpg?oh=6f22318a227432fdc7068aa8a23270b6&oe=5B0C2239";
-//     return strlen($str);
-// });
+    //Route::get('search',array('as'=>'search','uses'=>'SearchController@search'));
+    Route::get('/search_place/{keyword}',array('as'=>'autocomplete','uses'=>'Member\UserController@search_place'));
+});
