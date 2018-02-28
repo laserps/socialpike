@@ -3,7 +3,7 @@
 @section('cssbottom')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/global/plugins/bootstrap-daterangepicker-master/daterangepicker.css')}}">
-<!-- <link rel="stylesheet" href="{{asset('assets/global/plugins/easy-autocomplete/dist/easy-autocomplete.themes.min.css')}}"> -->
+<link rel="stylesheet" href="{{asset('assets/global/plugins/easy-autocomplete/dist/easy-autocomplete.themes.min.css')}}">
 
 @endsection
 
@@ -241,7 +241,6 @@
 					<div class="col-9 col-md-9">
 						<button type="button" class="profilesetting-btn-address" id='add_address'><i class="fa fa-plus" aria-hidden="true"></i></button>
 					</div>
-
 					<div class='row address_div'>
 						<div class="col-12 col-md-12">
 							<div class="form-group profilesetting-text-input">
@@ -249,7 +248,6 @@
 							    <input type="text" class="profilesetting-form-control-input-frome" name="number[]">
 							</div>
 						</div>
-
 						<div class="col-4 col-md-4">
 							<div class="form-group profilesetting-text-input">
 							    <label for="text">Sub district</label>
@@ -263,7 +261,6 @@
 							    <input type="text" class="profilesetting-form-control-input-frome" name="district[]">
 							</div>
 						</div>
-
 						<div class="col-4 col-md-4">
 							<div class="form-group profilesetting-text-input">
 							    <label for="text">Province</label>
@@ -282,8 +279,6 @@
 						  	</div>
 						</form>
 					</div>
-
-
 					<div class="col-md-12 mx-5 profilesetting-mx-5">
 						<form action="/action_page.php">
 						  	<div class="form-group profilesetting-text-input">
@@ -292,7 +287,6 @@
 						  	</div>
 						</form>
 					</div>
-
 					<div class="col-md-12 mx-5 profilesetting-mx-5">
 						<form action="/action_page.php">
 						  	<div class="form-group profilesetting-text-input">
@@ -337,7 +331,6 @@
 			<input type="text" class="profilesetting-form-control-input-frome school mt-3 typehead" name="main_google[]">\
 			<input type="hidden" name="duration[]">\
 			<input type="hidden" name="position[]">';
-
 		$('.school_div').prepend(school);
 		var path = "{{url('/search_place')}}/";
 		$('input.typehead').typeahead({
@@ -349,7 +342,6 @@
 			delay: 500, 
 		});
 	});
-
 	$('body').on('click','#add_university',function(event){
 		event.preventDefault();
 		var university = 
@@ -399,7 +391,6 @@
 			delay: 500, 
 		});
 	});
-
 	$('body').on('click','#add_city',function(event){
 		event.preventDefault();
 		var city = 
@@ -424,7 +415,6 @@
 			delay: 500, 
 		});
 	});
-
 	/*$('body').on('click','#add_address',function(event){
 		var address = '<div class="col-12 col-md-12">\
 							<div class="form-group profilesetting-text-input">\
@@ -452,7 +442,6 @@
 						</div>';
 		$('.address_div').prepend(address);
 	});*/
-
 	$('#profile').submit(function(event){
         event.preventDefault();
         var data = $(this).serialize();
@@ -465,9 +454,7 @@
             // prepend
         });
     });
-
-    /*var timer;
-
+    var timer;
     $('body').on('keyup','#schoolss',function(){
 		//alert($(this).val());
     	clearTimeout(timer);
@@ -488,7 +475,6 @@
 	        });
     	},1500);
 	});
-
     
     $('input.typeahead').typeahead({
         source:  function (query, process) {
@@ -498,6 +484,5 @@
 		},
 		delay: 500, 
     });
-
 </script>
 @endsection
