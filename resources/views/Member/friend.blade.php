@@ -35,11 +35,12 @@
 					<i class="fa fa-cog frinde-icon-cog" aria-hidden="true"></i>
 				</a>
 				<div class="dropdown-menu frinde-deopdow-setting" aria-labelledby="dropdownMenuButton" x-placement="bottom-start">
-					<a class="dropdown-item" href="#">Unfriend</a>
-					<a class="dropdown-item" href="#">Direct Meesage</a>
-					<a class="dropdown-item" href="#">Follow</a>
+					<a class="dropdown-item btn-unfriend" data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Unfriend</a>
+					<a class="dropdown-item btn-message"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Direct Message</a>
+					<!-- <a class="dropdown-item" href="#">Follow</a> -->
 					<hr>
-					<a class="dropdown-item" href="#">Block</a>
+					<a class="dropdown-item btn-block"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Block</a>
+					<a class="dropdown-item btn-unblock"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">UnBlock</a>
 				</div>
 			</div>
 			<div>
