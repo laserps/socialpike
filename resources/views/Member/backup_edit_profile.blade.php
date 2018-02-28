@@ -3,7 +3,7 @@
 @section('cssbottom')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/global/plugins/bootstrap-daterangepicker-master/daterangepicker.css')}}">
-<link rel="stylesheet" href="{{asset('assets/global/plugins/easy-autocomplete/dist/easy-autocomplete.themes.min.css')}}">
+<!-- <link rel="stylesheet" href="{{asset('assets/global/plugins/easy-autocomplete/dist/easy-autocomplete.themes.min.css')}}"> -->
 
 @endsection
 
@@ -466,7 +466,7 @@
         });
     });
 
-    var timer;
+    /*var timer;
 
     $('body').on('keyup','#schoolss',function(){
 		//alert($(this).val());

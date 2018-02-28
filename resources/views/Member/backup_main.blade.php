@@ -9,7 +9,7 @@
         <div class="card mb-4">
             <form class='post_form'>
                 <input type="hidden" name="_token" value='{{ csrf_token() }}'>
-                <div class="card-header-lg ">
+                <div class="card-header-lg">
                     <div class="m-1">
                         <a href="#">
                             <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-post-box" alt="Profile image">
@@ -38,7 +38,8 @@
                             </span>
                         </div>
                     </div>
-                    <div class="m-1 btn-coment" >
+                    <div class="m-1 btn-coment">
+                        <input type="hidden" name="posted_at" value="{{$user->id}}">
                         <input type="submit" name="post" class="btn btn-post" value="POST">
                     </div>
                 </div>

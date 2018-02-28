@@ -7,19 +7,16 @@
 									    <h5>About Me</h5>
 									    <div class="profile-header">
 									    	<span class="profile-header-icon"><i class="fa fa-gift" aria-hidden="true"></i></span>
-									    	<span class="profile-header-text">Born on october 24, 1990</span>
+									    	<span class="profile-header-text">Born on {{date('F, Y', strtotime($user->birthday))}}</span>
 									    </div>
 									    <div class="profile-header">
 									    	<span class="profile-header-icon"><i class="fa fa-calendar" aria-hidden="true"></i></span>
-									    	<span class="profile-header-text">Joined December 2011</span>
+									    	<span class="profile-header-text">Joined {{date('F, Y', strtotime($user->created_at))}}</span>
 									    </div>
 									    <div class="profile-header">
 									    	<span class="profile-header-icon"><i class="fa fa-users" aria-hidden="true"></i></span>
 									    	<span class="profile-header-text">friends 300</span>
-									    	<hr>
-									  	</div>
-									  	<div class="profile-header text-center">
-									  		<p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor"</p>
+									    	<br><br><hr>
 									  	</div>
 									 </div>
 								</div>
