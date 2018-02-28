@@ -100,8 +100,9 @@
                     </div>
                     <div class="m-2 social-action">
                         <div class="p-2">
-                            <a href="#" class="icon-like">
-                                <span class="icon-action">{{$val->liked}}</span>
+                            <a href="#" data-id='{{$val->id}}' class="like" >
+                                <i class='fa fa-heart-o fa-1x'></i>&nbsp;&nbsp;<label class='icon-action' id='count_like{{$val->id}}'>{{count(json_decode($val->liked))}}</label>
+                                <!-- <span class="icon-action">{{$val->liked}}</span> -->
                             </a>
                         </div>
                         <div class="p-2">
@@ -368,6 +369,19 @@
             $("#reportModal").modal('show');
         });
 
+        $('body').on('click','.like',function(){
+            var id = $(this).data('id');
+            var user_id = {{Auth::user()->id}};
+            $.ajax({
+                method : 'get',
+                url    : url+"/like/"+id+"/"+user_id,
+            }).done(function(rec){
+                $('#count_like'+id).text(rec);
+                
+            });
+            event.preventDefault();
+        });
+
         $('.report_form').submit(function(event){
             event.preventDefault();
             var data = $(this).serialize();
@@ -377,7 +391,6 @@
                 dataType : 'json',
                 data: data,
             }).done(function(rec){
-                console.log(rec);
                 $("#reportModal").modal('hide');
                 $("#actionFriendModal").modal('show');
             });
