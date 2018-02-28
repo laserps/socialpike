@@ -24,4 +24,26 @@ class PostController extends Controller
         }
     }
 
+    public function like($id,$user_id){
+        $user_id = intval($user_id);
+        $like = Post::where('id',$id)->select('liked')->first();
+        $like = json_decode($like->liked);
+        if(in_array($user_id, $like)){
+            $like = array_diff($like,[$user_id]);
+            $count = count($like);
+        }else{
+            array_push($like, $user_id);
+            $count = count($like);
+        }
+        $data['liked'] = json_encode($like);
+        \DB::beginTransaction();
+        try {
+            Post::where('id',$id)->update($data);
+            \DB::commit();
+        } catch (Exception $e){
+            \DB::rollBack();
+        }
+        return $count;
+    }
+
 }

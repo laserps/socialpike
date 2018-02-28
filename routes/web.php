@@ -46,6 +46,7 @@ Route::group(['middleware' => 'member'], function(){
 
     Route::get('/wall','Member\FetchController@wall');
     Route::post('/post', 'Member\PostController@store');
+    Route::get('/like/{post_id}/{user_id}', 'Member\PostController@like');
     Route::post('/reply', 'Member\ReplyController@store');
     Route::post('/comment', 'Member\CommentController@store');
     Route::post('/report', 'Member\ReportController@store');
@@ -57,4 +58,5 @@ Route::group(['middleware' => 'member'], function(){
 
     //Route::get('search',array('as'=>'search','uses'=>'SearchController@search'));
     Route::get('/search_place/{keyword}',array('as'=>'autocomplete','uses'=>'Member\UserController@search_place'));
+    Route::get('/{name}','Member\UserController@search_friend');
 });
