@@ -29,17 +29,20 @@ Route::group(['middleware' => 'member'], function(){
         return view('Member.main');
     });
 
-    Route::resource('/','Member\FriendController');
+    Route::resource('/friend','Member\FriendController');
 
     Route::get('/album', function(){
         return view('Member.album');
     });
+
     Route::get('/album_edit', function(){
         return view('Member.album_edit');
     });
+
     Route::get('/photo', function(){
         return view('Member.photo');
     });
+    
     Route::get('/edit_profile', function(){
         return view('Member.edit_profile');
     });

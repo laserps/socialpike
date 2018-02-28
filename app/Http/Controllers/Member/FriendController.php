@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use Auth;
 use View;
 use App\Models\User;
+use App\Models\UserFriend;
 
 class FriendController extends Controller
 {
@@ -23,7 +24,10 @@ class FriendController extends Controller
      */
     public function index()
     {
-        return View::make('Member.profile');
+        $return['user'] = User::where('id',Auth::user()->id)->first();
+        $friendid = json_decode(UserFriend::where('user_id',Auth::user()->id)->first()->friend_id);
+        $return['friends'] = User::whereIn('id',$friendid)->get();
+        return View::make('Member.friend',$return);
     }
     /**
      * Show the form for creating a new resource.
@@ -54,12 +58,12 @@ class FriendController extends Controller
      */
     public function show($id)
     {
-        //Napat M'ee Osaklang
-        //$str = explode('.',$id);
-        //$firstname = $str[0]; $lastname = $str[1];
-        $firstname = $id;
-        $return['friends'] = User::get();
-        return View::make('Member.profile',$return);
+        $str = str_replace("."," ",$id);
+        $return['user'] = User::where('name',$str)->first();
+        $realid = $return['user']->id;
+        $friendid = json_decode(UserFriend::where('user_id',$realid)->first()->friend_id);
+        $return['friends'] = User::whereIn('id',$friendid)->get();
+        return View::make('Member.friend',$return);
     }
 
     /**
