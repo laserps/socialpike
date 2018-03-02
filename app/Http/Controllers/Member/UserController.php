@@ -95,8 +95,9 @@
         function search_friend($name){
             $name = str_replace("."," ",$name);
             $result['user'] = User::where('name',$name)->first();
-            $result['result'] = Post::with(['getComment.getUser','getUser','getComment.getReply','getComment.getReply.getUser'])
+            $result['result'] = Post::with(['getShare.getUser','getComment.getUser','getUser','getComment.getReply','getComment.getReply.getUser'])
             ->where('posted_at',$result['user']->id)
+            ->orderBy('created_at','DESC')
             ->get();
             $result['report_type'] = \App\Models\ReportType::get();
             return view('Member.backup_main',$result);

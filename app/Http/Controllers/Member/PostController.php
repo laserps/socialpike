@@ -12,6 +12,7 @@ class PostController extends Controller
     public function store(Request $request){
         $post = $request->all();
         $post['detail'] = json_encode($request->detail);
+        $post['post_type_id'] = 0;
         unset($post['_token']);
         $post['created_at'] = date('Y-m-d H:i:s');
         $post['posted_by'] = Auth::user()->id;
@@ -53,6 +54,28 @@ class PostController extends Controller
             \DB::rollBack();
         }
         return $result;
+    }
+
+    public function share(Request $request){
+        $user_id = Auth::user()->id;
+        $share = $request->all();
+        $update['shared'] = intval($share['shared'])+1;
+        $share['posted_at'] = $user_id;
+        $share['posted_by'] = $user_id;
+        $share['post_type_id'] = 1;
+        $share['detail'] = json_encode($share['detail']);
+        $share['created_at'] = date('Y-m-d H:i:s');
+        unset($share['_token']);
+        unset($share['shared']);
+        \DB::beginTransaction();
+        try {
+            Post::insert($share);
+            Post::where('id',$share['post_share_id'])->update($update);
+            \DB::commit();
+        } catch (Exception $e){
+            \DB::rollBack();
+        }
+        return $update['shared'];
     }
 
 }

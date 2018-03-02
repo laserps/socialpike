@@ -21,9 +21,6 @@ Route::get('/logout',function(){
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'member'], function(){
-    Route::get('/main', function(){
-        return view('Member.main');
-    });
 
     Route::get('/first', function(){
         return view('Member.main');
@@ -47,9 +44,12 @@ Route::group(['middleware' => 'member'], function(){
         return view('Member.edit_profile');
     });
 
+    Route::get('/main','Member\FetchController@main');
+    
     Route::get('/wall','Member\FetchController@wall');
     Route::post('/post', 'Member\PostController@store');
     Route::get('/like/{post_id}/{user_id}', 'Member\PostController@like');
+    Route::post('/share', 'Member\PostController@share');
     Route::post('/reply', 'Member\ReplyController@store');
     Route::post('/comment', 'Member\CommentController@store');
     Route::post('/report', 'Member\ReportController@store');

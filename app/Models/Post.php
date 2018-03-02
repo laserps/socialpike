@@ -18,6 +18,10 @@
 		public function getUser(){
 			return $this->hasOne('App\User','id','posted_by');
 		}
+
+		public function getShare(){
+			return $this->hasOne('App\Models\Post','id','post_share_id');
+		}
 	}
 
 

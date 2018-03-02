@@ -12,11 +12,17 @@
     {
         public function wall(){
             $result['user'] = User::where('id',Auth::user()->id)->first();
-            $result['result'] = Post::with(['getComment.getUser','getUser','getComment.getReply','getComment.getReply.getUser'])
+            $result['result'] = Post::with(['getShare.getUser','getComment.getUser','getUser','getComment.getReply','getComment.getReply.getUser'])
             ->where('posted_at',Auth::user()->id)
+            ->orderBy('created_at','DESC')
             ->get();
             $result['report_type'] = \App\Models\ReportType::get();
             return view('Member.backup_main',$result);
+        }
+
+        public function main(){
+            $result['user'] = User::where('id',Auth::user()->id)->first();
+            return view('Member.main',$result);
         }
     }
 ?>

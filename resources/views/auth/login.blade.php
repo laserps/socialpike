@@ -103,7 +103,7 @@
                                     @endif
                                 </div>
                                 <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
-                                    <input id="password" type="text" class="form-control input-rounded" name="password" value="{{ old('password') }}" placeholder="Password">
+                                    <input id="password" type="password" class="form-control input-rounded" name="password" value="{{ old('password') }}" placeholder="Password">
                                     @if ($errors->has('password'))
                                         <span class="help-block">
                                             <strong>{{ $errors->first('password') }}</strong>
@@ -117,26 +117,21 @@
                                 <div class="form-group">
                                     <label class="login-birthday-text">Birthday</label>
                                     <div class="row login-birthday-row">
-                                        <select class="form-control register-date register-brithday-picker">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                        <select class="form-control register-date register-brithday-picker" id="day" name='day'>
+                                            @for($i=1;$i<=31;$i++)
+                                                <option value='{{$i}}'>{{$i}}</option>
+                                            @endfor
                                         </select>
-                                        <select class="form-control register-month register-brithday-picker">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                        <select class="form-control register-month register-brithday-picker" id="month" name='month'>
+                                            @for($i=1;$i<=12;$i++)
+                                                <option value='{{$i}}'>{{date("F",mktime(0,0,0,$i,1,date("Y")))}}</option>
+                                            } ?>
+                                            @endfor
                                         </select>
-                                        <select class="form-control register-year register-brithday-picker">
-                                            <option>1</option>
-                                            <option>2</option>
-                                            <option>3</option>
-                                            <option>4</option>
-                                            <option>5</option>
+                                        <select class="form-control register-year register-brithday-picker" id="year" name='year'>
+                                            @for($x=2018;$x>=1950;$x--)
+                                                <option value='{{$x}}'>{{$x}}</option>
+                                            @endfor
                                         </select>
                                     </div>
                                 </div>
@@ -144,12 +139,17 @@
                                     <div class="row login-gender-row">
                                         <div class="form-check form-check-inline ml-3 mr-5">
                                             <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" name="" id="" value=""> Male
+                                            <input class="form-check-input" type="radio" name="sex" value="1"> Male
                                             </label>
                                         </div>
                                         <div class="form-check form-check-inline ml-3 mr-5">
                                             <label class="form-check-label">
-                                            <input class="form-check-input" type="radio" name="" id="" value=""> Female
+                                            <input class="form-check-input" type="radio" name="sex" value="2"> Female
+                                            </label>
+                                        </div>
+                                        <div class="form-check form-check-inline ml-3 mr-5">
+                                            <label class="form-check-label">
+                                            <input class="form-check-input" type="radio" name="sex" value="3"> Unknown
                                             </label>
                                         </div>
                                     </div>
