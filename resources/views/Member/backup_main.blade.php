@@ -307,7 +307,6 @@
             </div>
         </div>
     </div>
-
 @endsection
 
 @section('jsbottom')
@@ -393,6 +392,26 @@
             }).done(function(rec){
                 $("#reportModal").modal('hide');
                 $("#actionFriendModal").modal('show');
+            });
+        });
+
+        $('body').on('click','.btn-add-friend',function(event){
+            event.preventDefault();
+            var friend_id = $(this).data('friend-id');
+            var now_id = "{{AUTH::guard('web')->user()->id}}";
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                method : "POST",
+                url : url+"/friend",
+                dataType : 'json',
+                data:{
+                    friend_id:friend_id,
+                    now_id:now_id
+                }
+            }).done(function(rec){
+                
             });
         });
 

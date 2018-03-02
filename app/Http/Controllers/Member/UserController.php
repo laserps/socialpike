@@ -94,7 +94,8 @@
 
         function search_friend($name){
             $name = str_replace("."," ",$name);
-            $result['user'] = User::where('name',$name)->first();
+            $result['user'] = User::where('name',$name)->with('getFriend')->first();
+            //return $result['user'];
             $result['result'] = Post::with(['getComment.getUser','getUser','getComment.getReply','getComment.getReply.getUser'])
             ->where('posted_at',$result['user']->id)
             ->get();

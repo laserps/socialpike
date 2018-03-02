@@ -105,8 +105,13 @@
                                         <a class="dropdown-item" href="#">Separated link</a>
                                     </div>
                                 </li>
-                                <li class="nav-item btn-nav ml-auto">
-                                        <a class="btn btn-ghost" href="#">Edit Profile</a>
+
+                                    <li class="nav-item btn-nav ml-auto">
+                                    @if( Auth::guard('web')->check() && Auth::guard('web')->user()->id==$user->id )
+                                        <a class="btn btn-ghost" href="{{url('/profile')}}">Edit Profile</a>
+                                    @elseif( Auth::guard('web')->check() && Auth::guard('web')->user()->id!==$user->id && \App\Http\Controllers\Member\FriendController::checkFriend(Auth::guard('web')->user()->id,$user->id)=='F' )
+                                        <a class="btn btn-ghost btn-add-friend" href="#" data-friend-id="{{$user->id}}">Add Friend</a>
+                                    @endif
                                 </li>
 							</ul>
 			  			</div>

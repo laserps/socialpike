@@ -63,4 +63,27 @@
 @endsection
 
 @section('jsbottom')
+
+<script>
+	$('body').on('click','.btn-unfriend',function(event){
+		event.preventDefault();
+		var friend_id = $(this).data('friend-id');
+		var now_id = $(this).data('user-id');
+		$.ajax({
+			headers:{
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			},
+			method : "POST",
+			url : url+"/friend/remove",
+			dataType : 'json',
+			data:{
+				friend_id:friend_id,
+				now_id:now_id
+			}
+		}).done(function(rec){
+			
+		});
+	});
+</script>
+
 @endsection

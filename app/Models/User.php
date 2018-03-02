@@ -11,4 +11,7 @@ class User extends Model
     protected $table = 'users';
     //protected $primaryKey = '';
     //protected $timestamps = true;
+    public function getFriend(){
+        return $this->hasOne('\App\Models\UserFriend','user_id','id');
+    }
 }

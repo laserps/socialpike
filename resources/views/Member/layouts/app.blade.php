@@ -10,6 +10,8 @@
     <meta name="description" content="สื่อสังคมออนไลน์">
     <meta name="robots" content="index, follow, all">
     <meta name="author" content="">
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
   
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" type="text/css" href="{{asset('assets/member/node_modules/bootstrap/dist/css/bootstrap.min.css')}}">
