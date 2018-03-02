@@ -8,6 +8,7 @@ use Auth;
 use View;
 use App\Models\User;
 use App\Models\UserFriend;
+use App\Models\UserFriendBlock;
 
 class FriendController extends Controller
 {
@@ -93,6 +94,78 @@ class FriendController extends Controller
         }
     }
 
+    public function storeBlockFriend(Request $request)
+    {
+        $id = $request->now_id; $friend_id = $request->friend_id;
+        if(UserFriendBlock::where('user_id',$id)->count()==0){
+            $return['now'] = $this->insertBlockFriend($id,$friend_id);
+        }else{
+            $return['now'] = $this->updateBlockFriend($id,$friend_id);
+        }
+        if(UserFriendBlock::where('user_id',$friend_id)->count()==0){
+            $return['friend'] = $this->insertBlockFriend($friend_id,$id);
+        }else{
+            $return['friend'] = $this->updateBlockFriend($friend_id,$id);
+        }
+        return $return;
+    }
+
+    public function insertBlockFriend($id,$friend_id){
+        $fid[] = $friend_id;
+        $result = UserFriendBlock::insert([
+            'user_id' => $id,
+            'friend_id' => json_encode($fid),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+        if($result){return 'insert success';}else{return 'insert fail';}
+    }
+
+    public function updateBlockFriend($id,$friend_id){
+        $return['id']=$id;$return['friend_id']=$friend_id;
+        $getFriend = json_decode( UserFriendBlock::where('user_id',$id)->first()->friend_id );
+        if(in_array($friend_id,$getFriend)){
+
+        }else{
+            $getFriend[] = $friend_id;
+            $result = UserFriendBlock::where('user_id',$id)->update([
+                'user_id' => $id,
+                'friend_id' => json_encode($getFriend),
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+            if($result){
+                return 'update success';
+            }else{
+                return 'update fail';
+            }
+        }
+    }
+
+    public function updateUnblockFriend(Request $request){
+        //return $request->all();
+        $id=$request->now_id;
+        $nid[]=$request->now_id;
+
+        $friend_id=$request->friend_id;
+        $fid[]=$request->friend_id;
+
+        $getNow = json_decode( UserFriendBlock::where('user_id',$id)->first()->friend_id );
+        $result['now'] = array_diff($getNow,$fid);
+        UserFriendBlock::where('user_id',$id)->update([
+            'friend_id' => json_encode($result['now']),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+
+        $getFriend = json_decode( UserFriendBlock::where('user_id',$friend_id)->first()->friend_id );
+        $result['friend'] = array_diff($getFriend,$nid);
+        UserFriendBlock::where('user_id',$friend_id)->update([
+            'friend_id' => json_encode($result['friend']),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+        return $result;
+    }
+
     public function updateRemoveFriend(Request $request){
         //return $request->all();
         $id=$request->now_id;
@@ -114,7 +187,6 @@ class FriendController extends Controller
             'friend_id' => json_encode($result['friend']),
             'updated_at' => date('Y-m-d H:i:s')
         ]);
-
         return $result;
     }
 

@@ -29,6 +29,8 @@ Route::group(['middleware' => 'member'], function(){
         return view('Member.main');
     });
 
+    Route::post('/friend/block','Member\FriendController@storeBlockFriend');
+    Route::post('/friend/unblock','Member\FriendController@updateUnblockFriend');
     Route::post('/friend/remove','Member\FriendController@updateRemoveFriend');
     Route::resource('/friend','Member\FriendController');
 
