@@ -8,12 +8,8 @@
   <body>
 
     <div class="full-width-div"><!-- full page div -->
-
-
       <div class="login-page-height">
-
         <div class="d-none d-sm-block login-left-side" ><!-- Left side -->
-
             <div class="col-12 d-flex align-items-start" ><!-- Logo col -->
               <div class="login-logo" >
                 <img src="assets/images/SampleLogo.png" class="img-fluid" alt="Logo image">

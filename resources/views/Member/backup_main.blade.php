@@ -49,6 +49,15 @@
 
         <!-- wall -->
         @foreach($result as $key=>$val)
+            @if($val->liked!=null)
+                @if(in_array(intval(Auth::user()->id),json_decode($val->liked)))
+                    @php $like_class = 'fa fa-heart'; $like_style='color : #ef8494;'; @endphp
+                @else
+                    @php $like_class = 'fa fa-heart-o'; $like_style=''; @endphp
+                @endif
+            @else
+                @php $like_class = 'fa fa-heart-o'; $like_style=''; @endphp
+            @endif
             <div class="card mb-4">
                 <div class="card-header-lg ">
                     <div class="m-1">
@@ -100,9 +109,8 @@
                     </div>
                     <div class="m-2 social-action">
                         <div class="p-2">
-                            <a href="#" data-id='{{$val->id}}' class="like" >
-                                <i class='fa fa-heart-o fa-1x'></i>&nbsp;&nbsp;<label class='icon-action' id='count_like{{$val->id}}'>{{count(json_decode($val->liked))}}</label>
-                                <!-- <span class="icon-action">{{$val->liked}}</span> -->
+                            <a href="#" data-id='{{$val->id}}' class="like">
+                                <i id='i_like{{$val->id}}' class='{{$like_class}} fa-1x' style="{{$like_style}}"></i>&nbsp;&nbsp;<label class='icon-action' id='count_like{{$val->id}}'>{{count(json_decode($val->liked))}}</label>
                             </a>
                         </div>
                         <div class="p-2">
@@ -375,8 +383,15 @@
                 method : 'get',
                 url    : url+"/like/"+id+"/"+user_id,
             }).done(function(rec){
-                $('#count_like'+id).text(rec);
-                
+
+                $('#count_like'+id).text(rec.count);
+                if(rec.status==1){
+                    $('#i_like'+id).removeClass('fa fa-heart-o').addClass('fa fa-heart');
+                    $('#i_like'+id).css("color","#ef8494");
+                }else{
+                    $('#i_like'+id).removeClass('fa fa-heart').addClass('fa fa-heart-o');
+                    $('#i_like'+id).removeAttr("style");
+                }
             });
             event.preventDefault();
         });
