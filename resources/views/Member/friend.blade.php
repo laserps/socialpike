@@ -63,4 +63,67 @@
 @endsection
 
 @section('jsbottom')
+
+<script>
+	$('body').on('click','.btn-unfriend',function(event){
+		event.preventDefault();
+		var friend_id = $(this).data('friend-id');
+		var now_id = $(this).data('user-id');
+		$.ajax({
+			headers:{
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			},
+			method : "POST",
+			url : url+"/friend/remove",
+			dataType : 'json',
+			data:{
+				friend_id:friend_id,
+				now_id:now_id
+			}
+		}).done(function(rec){
+			
+		});
+	});
+
+	$('body').on('click','.btn-block',function(event){
+		event.preventDefault();
+		var friend_id = $(this).data('friend-id');
+		var now_id = $(this).data('user-id');
+		$.ajax({
+			headers:{
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			},
+			method : "POST",
+			url : url+"/friend/block",
+			dataType : 'json',
+			data:{
+				friend_id:friend_id,
+				now_id:now_id
+			}
+		}).done(function(rec){
+			
+		});
+	});
+
+	$('body').on('click','.btn-unblock',function(event){
+		event.preventDefault();
+		var now_id = $(this).data('user-id');
+		var friend_id = $(this).data('friend-id');
+		$.ajax({
+			headers:{
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			},
+			method : "POST",
+			url : url+"/friend/unblock",
+			dataType : 'json',
+			data:{
+				friend_id:friend_id,
+				now_id:now_id
+			}
+		}).done(function(rec){
+			
+		});
+	});
+</script>
+
 @endsection

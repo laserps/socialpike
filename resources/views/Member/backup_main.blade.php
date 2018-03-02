@@ -329,7 +329,6 @@
             </div>
         </div>
     </div>
-
     <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="directMessageModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content modal-content-msg">
@@ -489,6 +488,26 @@
             event.preventDefault();
         });
 
+        $('body').on('click','.btn-add-friend',function(event){
+            event.preventDefault();
+            var friend_id = $(this).data('friend-id');
+            var now_id = "{{AUTH::guard('web')->user()->id}}";
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                method : "POST",
+                url : url+"/friend",
+                dataType : 'json',
+                data:{
+                    friend_id:friend_id,
+                    now_id:now_id
+                }
+            }).done(function(rec){
+                
+            });
+        });
+
         // get cursor position
         /*var caretPos;
         var textAreaTxt;
@@ -509,4 +528,3 @@
         // end.get cursor position
 
     </script>
-@endsection

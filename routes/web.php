@@ -26,6 +26,9 @@ Route::group(['middleware' => 'member'], function(){
         return view('Member.main');
     });
 
+    Route::post('/friend/block','Member\FriendController@storeBlockFriend');
+    Route::post('/friend/unblock','Member\FriendController@updateUnblockFriend');
+    Route::post('/friend/remove','Member\FriendController@updateRemoveFriend');
     Route::resource('/friend','Member\FriendController');
 
     Route::get('/album', function(){
@@ -63,3 +66,5 @@ Route::group(['middleware' => 'member'], function(){
     Route::get('/search_place/{keyword}',array('as'=>'autocomplete','uses'=>'Member\UserController@search_place'));
     Route::get('/{name}','Member\UserController@search_friend');
 });
+
+Route::get('/checkFriend/{aid}/{bid}','Member\FriendController@checkFriend');
