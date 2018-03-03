@@ -3,8 +3,9 @@
 @section('cssbottom')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" type="text/css" href="{{asset('assets/global/plugins/bootstrap-daterangepicker-master/daterangepicker.css')}}">
-<link rel="stylesheet" href="{{asset('assets/global/plugins/easy-autocomplete/dist/easy-autocomplete.themes.min.css')}}">
 
+<link rel="stylesheet" href="{{asset('assets/global/plugins/alertifyjs/css/themes/default.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/alertifyjs/css/alertify.min.css')}}">
 @endsection
 
 @section('content')
@@ -300,6 +301,10 @@
 					<!-- <input class="typeahead" style="margin:0px auto;width:300px;" type="text">
 					<input class="typeahead" style="margin:0px auto;width:300px;" type="text"> -->
 
+					<div class="col-md-12 my-3">
+						<button class="btn profilesetting-bnt-save btn-sm"> Save </button>
+					</div>
+
 				</div>
 			</form>
 			<!-- end. input -->
@@ -318,6 +323,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
 <!-- <script src="{{asset('assets/global/plugins/typeahead.js-master/dist/typehead.js')}}"></script> -->
 <!-- <script src="{{asset('assets/global/plugins/typeahead.js-master/dist/typeahead.jquery.js')}}"></script> -->
+<script src="{{asset('assets/global/plugins/alertifyjs/alertify.min.js')}}"></script>
 
 <script>
 	var path = "{{url('/search_place')}}/";
@@ -451,7 +457,9 @@
             dataType : 'json',
             data: data,
         }).done(function(rec){
-            // prepend
+			if(rec.status==1){
+				alertify.message('save done');
+			}
         });
     });
     var timer;

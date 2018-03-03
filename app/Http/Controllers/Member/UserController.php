@@ -12,9 +12,9 @@
 
     class UserController extends Controller
     {
-
         public function index(){
             $id = Auth::user()->id;
+            $data['topbar']='profile';
             $data['school'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>1])->orderBy('id','DESC')->get();
             $data['city'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>0])->orderBy('id','DESC')->get();
             $data['university'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>2])->orderBy('id','DESC')->get();
@@ -31,7 +31,8 @@
         }
 
         public function info(){
-            $id = Auth::user()->id;
+            $id = Auth::guard('web')->user()->id;
+            $data['topbar']='info';
             $data['user'] = User::where('id',$id)->first();
             $data['city'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>0])->orderBy('id','DESC')->get();
             $data['university'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>2])->orderBy('id','DESC')->get();
@@ -100,6 +101,7 @@
             ->orderBy('created_at','DESC')
             ->get();
             $result['report_type'] = \App\Models\ReportType::get();
+            $result['topbar']="";
             return view('Member.backup_main',$result);
         }
     }

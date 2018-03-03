@@ -10,6 +10,7 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
 Auth::routes();
 Route::get('/redirect', 'FacebookAuthController@redirect');
 Route::get('/callback', 'FacebookAuthController@callback');
@@ -24,6 +25,13 @@ Route::group(['middleware' => 'member'], function(){
 
     Route::get('/first', function(){
         return view('Member.main');
+    });
+
+    
+    Route::get('/editprofile',function(){
+        $data['user'] = \App\Models\User::where('id', \AUTH::user()->id )->first();
+        $data['topbar'] = 'profile';
+        return view('Member.edit_profile',$data);
     });
 
     Route::post('/friend/block','Member\FriendController@storeBlockFriend');
@@ -48,6 +56,8 @@ Route::group(['middleware' => 'member'], function(){
     });
 
     Route::get('/main','Member\FetchController@main');
+
+    Route::get('/','Member\FetchController@wall');
     
     Route::get('/wall','Member\FetchController@wall');
     Route::post('/post', 'Member\PostController@store');

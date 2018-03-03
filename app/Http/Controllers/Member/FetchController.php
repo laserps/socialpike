@@ -11,6 +11,7 @@
     class FetchController extends Controller
     {
         public function wall(){
+            $result['topbar'] = 'post';
             $result['user'] = User::where('id',Auth::user()->id)->first();
             $result['result'] = Post::with(['getShare.getUser','getComment.getUser','getUser','getComment.getReply','getComment.getReply.getUser'])
             ->where('posted_at',Auth::user()->id)

@@ -101,7 +101,7 @@
 				now_id:now_id
 			}
 		}).done(function(rec){
-			
+			console.log(rec);
 		});
 	});
 
