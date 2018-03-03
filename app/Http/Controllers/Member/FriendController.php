@@ -7,8 +7,10 @@ use App\Http\Controllers\Controller;
 use Auth;
 use View;
 use App\Models\User;
+use App\Models\UserPlace;
 use App\Models\UserFriend;
 use App\Models\UserFriendBlock;
+
 
 class FriendController extends Controller
 {
@@ -26,9 +28,11 @@ class FriendController extends Controller
     public function index()
     {
         $return['topbar']='friend';
+        $return['authfriend'] = json_decode(UserFriend::where('user_id',AUTH::user()->id)->first()->friend_id);
         $return['user'] = User::where('id',Auth::user()->id)->first();
         $friendid = json_decode(UserFriend::where('user_id',Auth::user()->id)->first()->friend_id);
         $return['friends'] = User::whereIn('id',$friendid)->get();
+        $return['pagetype'] = 'friend';
         return View::make('Member.friend',$return);
     }
     /**
@@ -251,5 +255,29 @@ class FriendController extends Controller
         $casea = UserFriend::where('user_id',$aid)->where('friend_id', 'like', '%"'.$bid.'"%') ->count();
         $caseb = UserFriend::where('user_id',$bid)->where('friend_id', 'like', '%"'.$aid.'"%') ->count();
         return ($casea+$caseb)==2?'T':'F';
+    }
+
+    public function finfo($name){
+        $id = User::where('name',str_replace('.',' ',$name))->first()->id;
+        //$id = Auth::guard('web')->user()->id;
+        $data['topbar']='info';
+        $data['user'] = User::where('id',$id)->first();
+        $data['city'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>0])->orderBy('id','DESC')->get();
+        $data['university'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>2])->orderBy('id','DESC')->get();
+        $data['workplace'] = UserPlace::where(['user_id'=>$id,'place_type_id'=>3])->orderBy('id','DESC')->get();
+        $data['pagetype'] = str_replace(' ','.',$data['user']->name);
+        return view('Member.backup_info',$data);
+    }
+
+    public function ffriend($name){
+        $id = User::where('name',str_replace('.',' ',$name))->first()->id;
+        $return['authfriend'] = json_decode(UserFriend::where('user_id',AUTH::user()->id)->first()->friend_id);
+        $return['topbar']='friend';
+        $return['user'] = User::where('id',$id)->first();
+        $friendid = json_decode(UserFriend::where('user_id',$id)->first()->friend_id);
+        $return['friends'] = User::whereIn('id',$friendid)->get();
+        $return['pagetype'] = str_replace(' ','.',$return['user']->name);
+        //return $return['pagetype'];
+        return View::make('Member.friend',$return);
     }
 }

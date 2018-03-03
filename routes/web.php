@@ -83,12 +83,16 @@ Route::group(['middleware' => 'member'], function(){
     Route::get('/find_report/{post_id}', 'Member\ReportController@find');
     Route::get('/profile', 'Member\UserController@index');
     Route::post('/profile', 'Member\UserController@store');
+
     Route::get('/info', 'Member\UserController@info');
+    Route::get('/{name}/info','Member\UserController@search_friend');
     //Route::get('/search_place', 'Member\UserController@search_place');
 
     //Route::get('search',array('as'=>'search','uses'=>'SearchController@search'));
     Route::get('/search_place/{keyword}',array('as'=>'autocomplete','uses'=>'Member\UserController@search_place'));
     Route::get('/{name}','Member\UserController@search_friend');
+    Route::get('/{name}/info','Member\FriendController@finfo');
+    Route::get('/{name}/friend','Member\FriendController@ffriend');
 });
 
 Route::get('/checkFriend/{aid}/{bid}','Member\FriendController@checkFriend');

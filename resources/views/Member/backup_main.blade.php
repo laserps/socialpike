@@ -1057,7 +1057,6 @@
                     alertify.message('save done');
                     $('.af'+friend_id).remove();
                 }
-                
             });
         });
 

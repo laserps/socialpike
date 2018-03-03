@@ -31,10 +31,17 @@
 		@foreach($friends as $friend)
 			<div class="col-6 col-md-3 friend-col-3 my-3 node{{$friend->id}}">
 				<div class="frinds-border-img col-12 text-center">
+					
 					<div class="dropdown">
+					@if( AUTH::user()->id!==$friend->id )
 						<a id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							<i class="fa fa-cog frinde-icon-cog" aria-hidden="true"></i>
 						</a>
+					@else
+						<br>
+					@endif
+
+					@if(in_array($friend->id,$authfriend))
 						<div class="dropdown-menu frinde-deopdow-setting" aria-labelledby="dropdownMenuButton" x-placement="bottom-start">
 							<a class="dropdown-item btn-unfriend" data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Unfriend</a>
 							<a class="dropdown-item btn-message"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Direct Message</a>
@@ -43,7 +50,19 @@
 							<a class="dropdown-item btn-block"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Block</a>
 							<a class="dropdown-item btn-unblock"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">UnBlock</a> -->
 						</div>
+					@else
+						<div class="dropdown-menu frinde-deopdow-setting" aria-labelledby="dropdownMenuButton" x-placement="bottom-start">
+							<a class="dropdown-item btn-add-friend af{{$user->id}}" data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Add friend</a>
+							<a class="dropdown-item btn-message"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Direct Message</a>
+							<!-- <a class="dropdown-item" href="#">Follow</a> -->
+							<!-- <hr>
+							<a class="dropdown-item btn-block"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Block</a>
+							<a class="dropdown-item btn-unblock"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">UnBlock</a> -->
+						</div>
+					@endif
+						
 					</div>
+					
 					<div>
 						<img class="frinde-img-size" src="{{asset($friend->avatar)}}">
 					</div>
@@ -142,7 +161,28 @@
 		$('.allfriend');
 	}
 
-	
+	$('body').on('click','.btn-add-friend',function(event){
+		event.preventDefault();
+		var friend_id = $(this).data('friend-id');
+		var now_id = "{{AUTH::guard('web')->user()->id}}";
+		$.ajax({
+			headers: {
+				'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+			},
+			method : "POST",
+			url : url+"/friend",
+			dataType : 'json',
+			data:{
+				friend_id:friend_id,
+				now_id:now_id
+			}
+		}).done(function(rec){
+			if(rec){
+				alertify.message('save done');
+				// $('.af'+friend_id).remove();
+			}
+		});
+	});
 </script>
 
 @endsection
