@@ -101,7 +101,7 @@
             ->orderBy('created_at','DESC')
             ->get();
             $result['report_type'] = \App\Models\ReportType::get();
-            $result['topbar']="";
+            $result['topbar']="post";
             return view('Member.backup_main',$result);
         }
     }

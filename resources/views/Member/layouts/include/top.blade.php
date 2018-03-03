@@ -83,18 +83,35 @@
   					<div class="col-12 col-md-8 ml-auto">
   						<div class="menu-bar">
 			  				<ul class="nav nav-tabs mr-0">
-                                <li class="nav-item">
-                                    <a class="nav-link {{$topbar=='post'?'active':''}}" href="{{url('/')}}">Post</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link {{$topbar=='info'?'active':''}}" href ="{{url('/info')}}">Info</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link {{$topbar=='friend'?'active':''}}" href="{{url('/friend')}}">Friend</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link {{$topbar=='album'?'active':''}}" href="{{url('/album')}}">Photo</a>
-                                </li>
+
+                                @if(isset($pagetype))
+                                    <li class="nav-item">
+                                        <a class="nav-link {{$topbar=='post'?'active':''}}" href="{{url($pagetype)}}">Post</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{$topbar=='info'?'active':''}}" href ="{{url($pagetype.'/info')}}">Info</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{$topbar=='friend'?'active':''}}" href="{{url($pagetype.'/friend')}}">Friend</a>
+                                    </li>
+                                    {{--  <li class="nav-item">
+                                        <a class="nav-link {{$topbar=='album'?'active':''}}" href="{{url('/album')}}">Photo</a>
+                                    </li>  --}}
+                                @else
+                                    <li class="nav-item">
+                                        <a class="nav-link {{$topbar=='post'?'active':''}}" href="{{url('/')}}">Post</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{$topbar=='info'?'active':''}}" href ="{{url('/info')}}">Info</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link {{$topbar=='friend'?'active':''}}" href="{{url('/friend')}}">Friend</a>
+                                    </li>
+                                    {{--  <li class="nav-item">
+                                        <a class="nav-link {{$topbar=='album'?'active':''}}" href="{{url('/album')}}">Photo</a>
+                                    </li>  --}}
+                                @endif
+
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">More</a>
                                     <div class="dropdown-menu">
