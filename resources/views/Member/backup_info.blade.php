@@ -69,8 +69,7 @@
                             </div>
                         </div>
                         <!-- END Content w/ icon 3 -->
-                        <div class="col-12">
-                            <!-- Content w/ icon 4 -->
+                        <!-- <div class="col-12">
                             <div class="row">
                                 <div class="col-2 p-2 pl-4">
                                     <div class="info-image">
@@ -81,14 +80,15 @@
                                     <label class="info-content-text">7 family members</label>
                                 </div>
                             </div>
-                        </div>
-                        <!-- END Content w/ icon 4 -->
+                        </div> -->
+
                     </div>
                 </div>
                 <div class="col-6">
                     <!-- Right side-->
                     <div class="col-12">
                         <!-- Content w/ picture 1 -->
+
                         <div class="row">
                             <div class="col-2 p-2">
                                 <div class="info-image">
@@ -96,9 +96,11 @@
                                 </div>
                             </div>
                             <div class="col-10 py-3 info-overide-col">
-                                <label class="info-content-text"> Work at : {{$workplace[0]->main_google}}</label>
+                                <label class="info-content-text"> Work at : {{ isset($workplace[0]->main_google)?$workplace[0]->main_google:'' }}</label>
                             </div>
                         </div>
+
+                        
                     </div>
                     <!-- END Content w/ picture 1 -->
                     <div class="col-12">
@@ -110,7 +112,7 @@
                                 </div>
                             </div>
                             <div class="col-10 py-3 info-overide-col">
-                                <label class="info-content-text"> Studies {{$university[0]->position}} : {{$university[0]->main_google}}</label>
+                                <label class="info-content-text"> Studies {{ isset($university[0]->position)?$university[0]->position:"" }} : {{ isset($university[0]->main_google)?$university[0]->main_google:"" }}</label>
                             </div>
                         </div>
                     </div>
@@ -124,7 +126,7 @@
                                 </div>
                             </div>
                             <div class="col-10 py-3 info-overide-col">
-                                <label class="info-content-text"> Lives in : Workbythai</label>
+                                <label class="info-content-text"> Lives in : {{ isset($city[0]->position)?$city[0]->position:"" }}</label>
                             </div>
                         </div>
                     </div>
@@ -242,51 +244,8 @@
                         </div>
                     </div>
                 @endforeach
-                <!-- END Content w/ picture 1 -->
-                <!-- <div class="col-12">
-                    <div class="row">
-                        <div class="col-2 p-2 pl-4 info-overide-col12-pic">
-                            <div class="info-image">
-                                <img src="{{ asset('assets/member/assets/images/building-3.jpg') }}" class="info-place-image rounded-circle" alt="info image">
-                            </div>
-                        </div>
-                        <div class="col-10 py-3">
-                            <p class="info-content-p">Bangkok, Thailand</p>
-                            <label class="info-content-text"> Hometown </label>
-                        </div>
-                    </div>
-                </div> -->
-                <!-- END Content w/ picture 2 -->
             </div>
         </div>
-        <!-- END City body-->
-        <!-- <div class="card-header-lg">
-            <label class="info-page-headertext">RESIDENCES</label>
-            <div class="row">
-                <div class="col-5 info-page-header-hr">
-                    <hr>
-                </div>
-                <div class="col-7">
-                </div>
-            </div>
-        </div>
-        <div class="card-body-lg ">
-            <div class="row">
-                <div class="col-12">
-                    <div class="row">
-                        <div class="col-2 p-2 pl-4 info-overide-col12-pic">
-                            <div class="info-image">
-                                <img src="{{ asset('assets/member/assets/images/building-1.jpg') }}" class="info-place-image rounded-circle" alt="info image">
-                            </div>
-                        </div>
-                        <div class="col-10 py-3">
-                            <p class="info-content-p"> Allison's Home</p>
-                            <label class="info-content-text"> Bangkok Thailand</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     </div>
     <div class="card mb-4">
         <!-- Contact Info Card -->
@@ -313,7 +272,7 @@
                             </div>
                         </div>
                         <div class="col-10 py-3">
-                            <p class="info-content-p info-p-col12"> 497 R.Bangsue Bansue Bangkok, Thailand </p>
+                            <p class="info-content-p info-p-col12">{{ isset($city[0]->position)?$city[0]->position:"" }}</p>
                         </div>
                     </div>
                 </div>

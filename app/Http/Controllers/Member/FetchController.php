@@ -11,6 +11,7 @@
     class FetchController extends Controller
     {
         public function wall(){
+            $result['topbar'] = 'post';
             $friend = json_decode(\App\Models\UserFriend::where('user_id',Auth::user()->id)->first()->friend_id);
             $result['friend'] = User::whereIn('id',$friend)->get();
             $result['user'] = User::where('id',Auth::user()->id)->first();

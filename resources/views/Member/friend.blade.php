@@ -1,6 +1,8 @@
 @extends('Member.layouts.app')
 
 @section('cssbottom')
+<link rel="stylesheet" href="{{asset('assets/global/plugins/alertifyjs/css/themes/default.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/alertifyjs/css/alertify.min.css')}}">
 @endsection
 
 @section('content')
@@ -24,36 +26,40 @@
 	</div>
 </div>
 
-
-<div class="row mx-1 my-5">
-
-@foreach($friends as $friend)
-	<div class="col-6 col-md-3 friend-col-3 my-3">
-		<div class="frinds-border-img col-12 text-center">
-			<div class="dropdown">
-				<a id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="fa fa-cog frinde-icon-cog" aria-hidden="true"></i>
-				</a>
-				<div class="dropdown-menu frinde-deopdow-setting" aria-labelledby="dropdownMenuButton" x-placement="bottom-start">
-					<a class="dropdown-item btn-unfriend" data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Unfriend</a>
-					<a class="dropdown-item btn-message"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Direct Message</a>
-					<!-- <a class="dropdown-item" href="#">Follow</a> -->
-					<hr>
-					<a class="dropdown-item btn-block"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Block</a>
-					<a class="dropdown-item btn-unblock"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">UnBlock</a>
+<div class="allfriend">
+	<div class="row mx-1 my-5">
+		@foreach($friends as $friend)
+			<div class="col-6 col-md-3 friend-col-3 my-3 node{{$friend->id}}">
+				<div class="frinds-border-img col-12 text-center">
+					<div class="dropdown">
+						<a id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fa fa-cog frinde-icon-cog" aria-hidden="true"></i>
+						</a>
+						<div class="dropdown-menu frinde-deopdow-setting" aria-labelledby="dropdownMenuButton" x-placement="bottom-start">
+							<a class="dropdown-item btn-unfriend" data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Unfriend</a>
+							<a class="dropdown-item btn-message"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Direct Message</a>
+							<!-- <a class="dropdown-item" href="#">Follow</a> -->
+							<!-- <hr>
+							<a class="dropdown-item btn-block"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">Block</a>
+							<a class="dropdown-item btn-unblock"  data-friend-id="{{$friend->id}}" data-user-id="{{AUTH::user()->id}}" href="#">UnBlock</a> -->
+						</div>
+					</div>
+					<div>
+						<img class="frinde-img-size" src="{{asset($friend->avatar)}}">
+					</div>
+					<div>
+						<div class="frinde-fex-name-size">
+							<b>
+								@php $var = str_replace(' ','.',$friend->name) @endphp
+								<a href="{{asset( '/'.$var )}}">{{$friend->name}}</a>
+							</b>
+						</div>
+						<!-- <div class="frinde-fex-text-comment"><p> is simply dummy text of thetext of thetext of the</p></div> -->
+					</div>
 				</div>
 			</div>
-			<div>
-				<img class="frinde-img-size" src="{{asset($friend->avatar)}}">
-			</div>
-			<div>
-				<div class="frinde-fex-name-size"><b>{{$friend->name}}</b></div>
-				<!-- <div class="frinde-fex-text-comment"><p> is simply dummy text of thetext of thetext of the</p></div> -->
-			</div>
-		</div>
+		@endforeach
 	</div>
-@endforeach
-
 </div>
 
 </div>
@@ -63,7 +69,7 @@
 @endsection
 
 @section('jsbottom')
-
+<script src="{{asset('assets/global/plugins/alertifyjs/alertify.min.js')}}"></script>
 <script>
 	$('body').on('click','.btn-unfriend',function(event){
 		event.preventDefault();
@@ -81,7 +87,10 @@
 				now_id:now_id
 			}
 		}).done(function(rec){
-			
+			if(rec){
+				alertify.message('save done');
+				$('.node'+friend_id).hide();
+			}
 		});
 	});
 
@@ -101,7 +110,9 @@
 				now_id:now_id
 			}
 		}).done(function(rec){
-			
+			if(rec){
+				alertify.message('save done');
+			}
 		});
 	});
 
@@ -121,9 +132,17 @@
 				now_id:now_id
 			}
 		}).done(function(rec){
-			
+			if(rec){
+				alertify.message('save done');
+			}
 		});
 	});
+
+	function getAllFriend(){
+		$('.allfriend');
+	}
+
+	
 </script>
 
 @endsection

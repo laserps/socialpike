@@ -2,6 +2,8 @@
 
 @section('cssbottom')
     <link rel="stylesheet" href="{{asset('assets/admin/lib/select2/select2.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/alertifyjs/css/themes/default.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/alertifyjs/css/alertify.min.css')}}">
 @endsection
 
 @section('content')
@@ -413,8 +415,8 @@
 
 @section('jsbottom')
     <script type="text/javascript" src="{{asset('assets/admin/lib/select2/select2.min.js')}}"></script>
+    <script src="{{asset('assets/global/plugins/alertifyjs/alertify.min.js')}}"></script>
     <script>
-
         $('#searchFriend').select2();
 
         $('.post_form').submit(function(event){
@@ -1051,6 +1053,10 @@
                     now_id:now_id
                 }
             }).done(function(rec){
+                if(rec){
+                    alertify.message('save done');
+                    $('.af'+friend_id).remove();
+                }
                 
             });
         });

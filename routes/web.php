@@ -1,5 +1,7 @@
 <?php
 
+use function GuzzleHttp\json_decode;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,6 +12,17 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+
+Route::get('test',function(){
+    $array1 = array("green","yellow","blue","red","white");
+    $array2 = array("green","yellow","blue");
+    $result['array_diff'] = json_encode( array_values(array_diff($array1, $array2)) );
+    $test =  array("25","17","45");
+    $result['decode'] = json_encode( $test );
+    return ($result);
+});
+
 Auth::routes();
 Route::get('/redirect', 'FacebookAuthController@redirect');
 Route::get('/callback', 'FacebookAuthController@callback');
@@ -24,6 +37,12 @@ Route::group(['middleware' => 'member'], function(){
 
     Route::get('/first', function(){
         return view('Member.main');
+    });
+
+    Route::get('/editprofile',function(){
+        $data['user'] = \App\Models\User::where('id', \AUTH::user()->id )->first();
+        $data['topbar'] = 'profile';
+        return view('Member.edit_profile',$data);
     });
 
     Route::post('/friend/block','Member\FriendController@storeBlockFriend');
@@ -48,6 +67,8 @@ Route::group(['middleware' => 'member'], function(){
     });
 
     Route::get('/main','Member\FetchController@main');
+
+    Route::get('/','Member\FetchController@wall');
     
     Route::get('/wall','Member\FetchController@wall');
     Route::post('/post', 'Member\PostController@store');

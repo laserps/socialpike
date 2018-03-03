@@ -84,16 +84,16 @@
   						<div class="menu-bar">
 			  				<ul class="nav nav-tabs mr-0">
                                 <li class="nav-item">
-                                    <a class="nav-link active" href="{{url('/main')}}">Post</a>
+                                    <a class="nav-link {{$topbar=='post'?'active':''}}" href="{{url('/')}}">Post</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href ="{{url('/info')}}">Info</a>
+                                    <a class="nav-link {{$topbar=='info'?'active':''}}" href ="{{url('/info')}}">Info</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{url('/friend')}}">Friend</a>
+                                    <a class="nav-link {{$topbar=='friend'?'active':''}}" href="{{url('/friend')}}">Friend</a>
                                 </li>
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{url('/album')}}">Photo</a>
+                                    <a class="nav-link {{$topbar=='album'?'active':''}}" href="{{url('/album')}}">Photo</a>
                                 </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">More</a>
@@ -105,12 +105,11 @@
                                         <a class="dropdown-item" href="#">Separated link</a>
                                     </div>
                                 </li>
-
-                                    <li class="nav-item btn-nav ml-auto">
-                                    @if( Auth::guard('web')->check() && Auth::guard('web')->user()->id==$user->id )
+                                <li class="nav-item btn-nav ml-auto">
+                                    @if( Auth::guard('web')->check() && Auth::guard('web')->user()->id==$user->id && $topbar!=='profile')
                                         <a class="btn btn-ghost" href="{{url('/profile')}}">Edit Profile</a>
                                     @elseif( Auth::guard('web')->check() && Auth::guard('web')->user()->id!==$user->id && \App\Http\Controllers\Member\FriendController::checkFriend(Auth::guard('web')->user()->id,$user->id)=='F' )
-                                        <a class="btn btn-ghost btn-add-friend" href="#" data-friend-id="{{$user->id}}">Add Friend</a>
+                                        <a class="btn btn-ghost btn-add-friend af{{$user->id}}" href="#" data-friend-id="{{$user->id}}">Add Friend</a>
                                     @endif
                                 </li>
 							</ul>
