@@ -123,25 +123,24 @@ class FriendController extends Controller
             'created_at' => date('Y-m-d H:i:s'),
             'updated_at' => date('Y-m-d H:i:s')
         ]);
-        if($result){
-            return '1';
-        }else{
-            return '0';
-        }
+        if($result){return '1';}else{return '0';}
     }
 
     public function updateBlockFriend($id,$friend_id){
         $return['id']=$id;$return['friend_id']=$friend_id;
         $getFriend = json_decode( UserFriendBlock::where('user_id',$id)->first()->friend_id );
         if(in_array($friend_id,$getFriend)){
+
         }else{
             $getFriend[] = $friend_id;
+
             $result = UserFriendBlock::where('user_id',$id)->update([
                 'user_id' => $id,
                 'friend_id' => json_encode($getFriend),
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ]);
+
             if($result){
                 return '1';
             }else{
@@ -159,16 +158,16 @@ class FriendController extends Controller
         $fid[]=$request->friend_id;
 
         $getNow = json_decode( UserFriendBlock::where('user_id',$id)->first()->friend_id );
-        $result['now'] = array_diff($getNow,$fid);
+        $result['now'] = json_encode( array_values(array_diff($getNow,$fid)) );
         $return['now'] = UserFriendBlock::where('user_id',$id)->update([
-            'friend_id' => json_encode($result['now']),
+            'friend_id' => $result['now'],
             'updated_at' => date('Y-m-d H:i:s')
         ]);
 
         $getFriend = json_decode( UserFriendBlock::where('user_id',$friend_id)->first()->friend_id );
-        $result['friend'] = array_diff($getFriend,$nid);
+        $result['friend'] = json_encode( array_values(array_diff($getFriend,$nid)) );
         $return['friend'] = UserFriendBlock::where('user_id',$friend_id)->update([
-            'friend_id' => json_encode($result['friend']),
+            'friend_id' => $result['friend'],
             'updated_at' => date('Y-m-d H:i:s')
         ]);
         return $return;
@@ -183,16 +182,16 @@ class FriendController extends Controller
         $fid[]=$request->friend_id;
 
         $getNow = json_decode( UserFriend::where('user_id',$id)->first()->friend_id );
-        $result['now'] = array_diff($getNow,$fid);
+        $result['now'] = json_encode( array_values(array_diff($getNow,$fid)) );
         $return['now'] = UserFriend::where('user_id',$id)->update([
-            'friend_id' => json_encode($result['now']),
+            'friend_id' => $result['now'],
             'updated_at' => date('Y-m-d H:i:s')
         ]);
 
         $getFriend = json_decode( UserFriend::where('user_id',$friend_id)->first()->friend_id );
-        $result['friend'] = array_diff($getFriend,$nid);
+        $result['friend'] = json_encode( array_values(array_diff($getFriend,$nid)) );
         $return['friend'] = UserFriend::where('user_id',$friend_id)->update([
-            'friend_id' => json_encode($result['friend']),
+            'friend_id' => $result['friend'],
             'updated_at' => date('Y-m-d H:i:s')
         ]);
         return $return;

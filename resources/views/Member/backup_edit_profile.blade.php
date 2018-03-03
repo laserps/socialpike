@@ -348,6 +348,7 @@
 			delay: 500, 
 		});
 	});
+	
 	$('body').on('click','#add_university',function(event){
 		event.preventDefault();
 		var university = 

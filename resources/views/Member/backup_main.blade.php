@@ -1,6 +1,8 @@
 @extends('Member.layouts.app')
 
 @section('cssbottom')
+<link rel="stylesheet" href="{{asset('assets/global/plugins/alertifyjs/css/themes/default.css')}}">
+<link rel="stylesheet" href="{{asset('assets/global/plugins/alertifyjs/css/alertify.min.css')}}">
 @endsection
 
 @section('content')
@@ -366,8 +368,8 @@
 @endsection
 
 @section('jsbottom')
+    <script src="{{asset('assets/global/plugins/alertifyjs/alertify.min.js')}}"></script>
     <script>
-
         $('.post_form').submit(function(event){
             event.preventDefault();
             var data = $(this).serialize();
@@ -506,6 +508,10 @@
                     now_id:now_id
                 }
             }).done(function(rec){
+                if(rec){
+                    alertify.message('save done');
+                    $('.af'+friend_id).remove();
+                }
                 
             });
         });
