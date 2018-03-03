@@ -22,6 +22,9 @@
             } catch (Exception $e){
                 \DB::rollBack();
             }
+            $result = Reply::where('user_id',Auth::user()->id)->orderBy('reply_id','desc')->first();
+            $result['message'] = json_decode($result['message']);
+            return $result;
         }
     }
 ?>

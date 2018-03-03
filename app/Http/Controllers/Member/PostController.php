@@ -23,6 +23,9 @@ class PostController extends Controller
         } catch (Exception $e){
             \DB::rollBack();
         }
+        $result = Post::where('posted_by',Auth::user()->id)->orderBy('id','desc')->first();
+        $result['detail'] = json_decode($result['detail']);
+        return $result;
     }
 
     public function like($id,$user_id){
@@ -75,7 +78,66 @@ class PostController extends Controller
         } catch (Exception $e){
             \DB::rollBack();
         }
-        return $update['shared'];
+        $return['user_id'] = $user_id;
+        $return['count'] = $update['shared'];
+        $return['data'] = Post::with('getShare.getUser')->where('posted_by',$user_id)->orderBy('id','desc')->first();
+        return $return;
     }
+
+    public function share_now($id,$count){
+        $user_id = Auth::user()->id;
+        $count = intval($count)+1;
+        $insert = array(
+            'posted_at' => $user_id,
+            'posted_by' => $user_id,
+            'post_type_id' => 1,
+            'post_share_id' => $id,
+            'created_at' => date('Y-m-d H:i:s')
+        );
+        $update = array(
+            'shared' => $count
+        );
+        \DB::beginTransaction();
+        try {
+            Post::insert($insert);
+            Post::where('id',$id)->update($update);
+            \DB::commit();
+        } catch (Exception $e){
+            \DB::rollBack();
+        }
+        $return['user_id'] = $user_id;
+        $return['count'] = $count;
+        $return['data'] = Post::with('getShare.getUser')->where('posted_by',$user_id)->orderBy('id','desc')->first();
+        return $return;
+    }
+
+    public function share_to_friend(Request $request){
+        $user_id = Auth::user()->id;
+        $share = $request->all();
+        $update['shared'] = intval($share['shared'])+1;
+        $share['posted_by'] = $user_id;
+        $share['post_type_id'] = 1;
+        $share['detail'] = json_encode($share['detail']);
+        $share['created_at'] = date('Y-m-d H:i:s');
+        unset($share['_token']);
+        unset($share['shared']);
+        \DB::beginTransaction();
+        try {
+            Post::insert($share);
+            Post::where('id',$share['post_share_id'])->update($update);
+            \DB::commit();
+        } catch (Exception $e){
+            \DB::rollBack();
+        }
+        $return['user_id'] = $share['posted_at'];
+        $return['count'] = $update['shared'];
+        $return['data'] = Post::with('getShare.getUser')->where('posted_by',$user_id)->orderBy('id','desc')->first();
+        return $return;
+    }
+
+    /*public function find_friend(){
+        $friend = json_decode(\App\Models\UserFriend::where('user_id',Auth::user()->id)->first()->frind_id);
+        return $result = \App\Models\User::whereIn('id',$result)->get();
+    }*/
 
 }

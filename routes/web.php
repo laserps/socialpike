@@ -53,6 +53,9 @@ Route::group(['middleware' => 'member'], function(){
     Route::post('/post', 'Member\PostController@store');
     Route::get('/like/{post_id}/{user_id}', 'Member\PostController@like');
     Route::post('/share', 'Member\PostController@share');
+    Route::get('/find_friend', 'Member\PostController@find_friend');
+    Route::post('/share_to_friend', 'Member\PostController@share_to_friend');
+    Route::get('/share/{id}/{count}', 'Member\PostController@share_now');
     Route::post('/reply', 'Member\ReplyController@store');
     Route::post('/comment', 'Member\CommentController@store');
     Route::post('/report', 'Member\ReportController@store');

@@ -1,6 +1,7 @@
 @extends('Member.layouts.app')
 
 @section('cssbottom')
+    <link rel="stylesheet" href="{{asset('assets/admin/lib/select2/select2.min.css')}}">
 @endsection
 
 @section('content')
@@ -20,7 +21,7 @@
                     <div class="post-content">
                         <div class="px-2">
                             <div class="form-group">
-                                <textarea class="form-control post-box" name='detail'></textarea>
+                                <textarea class="form-control post-box post_detail" name='detail'></textarea>
                             </div>
                         </div>
                         <div class="m-1">
@@ -133,128 +134,134 @@
                                 </a>
                             </div>
                             <div class="p-2">
-                                <a href="" data-id='{{$val->id}}' class="share">
-                                    <i id='i_share{{$val->id}}' class='fa fa-share-alt fa-1x'></i>&nbsp;&nbsp;
+                                <a class="" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-share-alt fa-1x" aria-hidden="true"></i>&nbsp;&nbsp;
                                     <label class="icon-action" id="count_share{{$val->id}}">{{$val->shared}}</label>
                                 </a>
+
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                    <a class="dropdown-item share" href="" data-id='{{$val->id}}' data-status='1'>แชร์เลย (สาธารณะ)</a>
+                                    <a class="dropdown-item share" href="" data-id='{{$val->id}}' data-status='2'>แชร์...</a>
+                                    <a class="dropdown-item share" href="" data-id='{{$val->id}}' data-status='3'>แชร์บนไทม์ไลน์ของเพื่อน</a>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    @foreach($val->getComment as $comment)
-                        <div class="card-body-comment-lg">
-                            <div class="m-2">
-                                <a href="#">
-                                    <img src="{{$comment->getUser->avatar}}" class="img-fluid rounded-circle image-friend-comment" alt="Profile image">
-                                </a>
-                            </div>
-                            <div class="mx-2 profile-header-name-comment">
-                                <div class="row">
-                                    <div class="header-name-comment">
-                                        <a href="#">
-                                            <label class="font-header-friend-comment">{{$comment->getUser->name}}</label>
-                                        </a>
-                                    </div>
-                                    <!-- Date friend comment -->
-                                    <div class="dropdown show font-header-date-comment">
-                                        <label class="date-comment">{{$comment->created_at}}</label>
-                                            <a class="" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                {{$val->getUser->name}}
+                    <div id='comment{{$val->id}}'>
+                        @foreach($val->getComment as $comment)
+                            <div class="card-body-comment-lg">
+                                <div class="m-2">
+                                    <a href="#">
+                                        <img src="{{$comment->getUser->avatar}}" class="img-fluid rounded-circle image-friend-comment" alt="Profile image">
+                                    </a>
+                                </div>
+                                <div class="mx-2 profile-header-name-comment">
+                                    <div class="row">
+                                        <div class="header-name-comment">
+                                            <a href="#">
+                                                <label class="font-header-friend-comment">{{$comment->getUser->name}}</label>
                                             </a>
-
+                                        </div>
+                                        <!-- Date friend comment -->
+                                        <div class="dropdown show font-header-date-comment">
+                                            <label class="date-comment">{{$comment->created_at}}</label>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                                 <a class="dropdown-item" href="#">Public</a>
                                                 <a class="dropdown-item" href="#">Friends</a>
                                                 <a class="dropdown-item" href="#">Spacific friends</a>
                                                 <a class="dropdown-item" href="#">Only me</a>
                                             </div>
-                                    </div>
-                                    <!-- End date friend comment -->
-
-                                    <!-- Strat commemt option -->
-                                    <div class="comment-action-more ml-auto">
-                                        <div class="dropdown option-action-more">
-                                            <span class="dropdown-toggle dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
-                                            </span>
-                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#">Edit </a>
-                                                <a class="dropdown-item" href="#">Delete </a>
-                                                <a class="dropdown-item dropdown-item-last" href="#">Report </a>
-                                             </div>
                                         </div>
+                                        <!-- End date friend comment -->
+
+                                        <!-- Strat commemt option -->
+                                        <div class="comment-action-more ml-auto">
+                                            <div class="dropdown option-action-more">
+                                                <span class="dropdown-toggle dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                                                </span>
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="#">Edit </a>
+                                                    <a class="dropdown-item" href="#">Delete </a>
+                                                    <a class="dropdown-item dropdown-item-last" href="#">Report </a>
+                                                 </div>
+                                            </div>
+                                        </div>
+                                        <!-- End comment option -->
                                     </div>
-                                    <!-- End comment option -->
                                 </div>
-                            </div>
-                            <div class="mx-2 post-comment">
-                                <p class="mb-0">{{json_decode($comment->detail)}}</p>
-                                <div class="comment-reply">
-                                    <a href="#" class="text-reply">reply</a>
-                                    <div class="mb-4 mt-2 reply-box">
-                                        <div class="m-0">
-                                          <a href="#">
-                                            <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-comment" alt="Profile image">
-                                          </a>
+                                <div class="mx-2 post-comment">
+                                    <p class="mb-0">{{json_decode($comment->detail)}}</p>
+                                    <div class="comment-reply">
+                                        <a href="#" class="text-reply">reply</a>
+                                        <div class="mb-4 mt-2 reply-box">
+                                            <div class="m-0">
+                                              <a href="#">
+                                                <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-comment" alt="Profile image">
+                                              </a>
+                                            </div>
+                                            <form method='post' class='reply_form'>
+                                                <input type="hidden" name="_token" value='{{ csrf_token() }}'>
+                                                <input type="hidden" name="post_id" value="{{$val->id}}">
+                                                <input type="hidden" name="comment_id" value="{{$comment->id}}">
+                                                <input type="hidden" name="partner_id" value="{{$comment->member_id}}">
+                                                <div class="m-1 input-comment">
+                                                    <input type="text" class="form-control input-rounded detail_report" name='message' placeholder="Add a reply" aria-label="Search" aria-describedby="">
+                                                </div>
+                                                <div class="m-1 btn-reply-cmt">
+                                                    <input type="submit" class="btn btn-post reply-btn send_reply" value="REPLY">
+                                                </div>
+                                            </form>
                                         </div>
-                                        <form method='post' class='reply_form'>
-                                            <input type="hidden" name="_token" value='{{ csrf_token() }}'>
-                                            <input type="hidden" name="post_id" value="{{$val->id}}">
-                                            <input type="hidden" name="comment_id" value="{{$comment->id}}">
-                                            <input type="hidden" name="partner_id" value="{{$comment->member_id}}">
-                                            <div class="m-1 input-comment">
-                                                <input type="text" class="form-control input-rounded detail_report" name='message' placeholder="Add a reply" aria-label="Search" aria-describedby="">
-                                            </div>
-                                            <div class="m-1 btn-reply-cmt">
-                                                <input type="submit" class="btn btn-post reply-btn send_reply" value="REPLY">
-                                            </div>
-                                        </form>
-                                    </div>
-                                    @foreach($comment->getReply as $reply)
-                                        <div class="box-reply">
-                                            <div class="m-2">
-                                                <a href="#">
-                                                    <img src="{{$reply->getUser->avatar}}" class="img-fluid rounded-circle image-friend-comment" alt="Profile image">
-                                                </a>
-                                            </div>
-                                            <div class="mx-2 profile-header-name-comment">
-                                                <div class="row">
-                                                    <div class="header-name-comment-reply">
+                                        <div id='reply{{$comment->id}}'>
+                                            @foreach($comment->getReply as $reply)
+                                                <div class="box-reply">
+                                                    <div class="m-2">
                                                         <a href="#">
-                                                            <label class="font-header-friend-comment">{{$reply->getUser->name}}</label>
+                                                            <img src="{{$reply->getUser->avatar}}" class="img-fluid rounded-circle image-friend-comment" alt="Profile image">
                                                         </a>
                                                     </div>
-                                                    <!-- Date friend comment -->
-                                                    <div class="font-header-date-comment-reply">
-                                                        <label class="date-comment">{{$reply->created_at}}</label>
-                                                    </div>
-                                                    <!-- End date friend comment -->
+                                                    <div class="mx-2 profile-header-name-comment">
+                                                        <div class="row">
+                                                            <div class="header-name-comment-reply">
+                                                                <a href="#">
+                                                                    <label class="font-header-friend-comment">{{$reply->getUser->name}}</label>
+                                                                </a>
+                                                            </div>
+                                                            <!-- Date friend comment -->
+                                                            <div class="font-header-date-comment-reply">
+                                                                <label class="date-comment">{{$reply->created_at}}</label>
+                                                            </div>
+                                                            <!-- End date friend comment -->
 
-                                                    <!-- Strat commemt option -->
-                                                    <div class="comment-action-more ml-auto">
-                                                        <div class="dropdown option-action-more">
-                                                            <span class="dropdown-toggle reply-dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
-                                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-                                                                <a class="dropdown-item" href="#">Edit </a>
-                                                                <a class="dropdown-item" href="#">Delete </a>
-                                                             </div>
+                                                            <!-- Strat commemt option -->
+                                                            <div class="comment-action-more ml-auto">
+                                                                <div class="dropdown option-action-more">
+                                                                    <span class="dropdown-toggle reply-dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>
+                                                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+                                                                        <a class="dropdown-item" href="#">Edit </a>
+                                                                        <a class="dropdown-item" href="#">Delete </a>
+                                                                     </div>
+                                                                </div>
+                                                            </div>
+                                                            <!-- End comment option -->
+
                                                         </div>
+                                                        <div class="mx-2 post-comment-reply">
+                                                            <p class="mb-0">{{json_decode($reply->message)}}</p>
+                                                            <a href="#" class="text-reply">reply</a>
+                                                        </div>
+                                                                <!-- End post comment -->
                                                     </div>
-                                                    <!-- End comment option -->
-
                                                 </div>
-                                                <div class="mx-2 post-comment-reply">
-                                                    <p class="mb-0">{{json_decode($reply->message)}}</p>
-                                                    <a href="#" class="text-reply">reply</a>
-                                                </div>
-                                                        <!-- End post comment -->
-                                            </div>
+                                            @endforeach
                                         </div>
-                                    @endforeach
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    @endforeach
+                        @endforeach
+                    </div>
 
                     <!-- Footer Card / Comment section -->
                     <div class="card-footer-lg">
@@ -331,6 +338,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-labelledby="directMessageModalTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content modal-content-msg">
@@ -363,13 +371,53 @@
         </div>
     </div>
 
+    <div class="modal fade" id="shareToFriendModal" tabindex="-1" role="dialog" aria-labelledby="directMessageModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content modal-content-msg">
+                <form class='shareToFriendForm'>
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLongTitle">share</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <select class='form-control' id='searchFriend' name='posted_at' style='width: 100%'>
+                            <option>กรุณาเลือกเพื่อน</option>
+                            @foreach($friend as $val)
+                                <option value="{{$val->id}}">{{$val->name}}</option>
+                            @endforeach
+                        </select><br><hr><br>
+                        <input type="hidden" name="_token" value='{{ csrf_token() }}'>
+                        <input type="hidden" name="post_share_id" id='f_post_share_id'>
+                        <input type="hidden" name="shared" id='f_shared'>
+                        <textarea class="form-control post-box" name='detail'></textarea>
+                        <br><hr><br>
+                        <div class="row">
+                            <div class='col-md-1'></div>
+                            <div class='col-md-10'>
+                                <label id='f_shared_detail'></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class='modal-footer'>
+                        <button type="button" class="btn" data-dismiss="modal" aria-label="Close">ย้อนกลับ</button>
+                        <button type="submit" class="btn btn-post">แชร์</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @section('jsbottom')
+    <script type="text/javascript" src="{{asset('assets/admin/lib/select2/select2.min.js')}}"></script>
     <script>
 
+        $('#searchFriend').select2();
+
         $('.post_form').submit(function(event){
-            event.preventDefault();
             var data = $(this).serialize();
             $.ajax({
                 method : "POST",
@@ -377,12 +425,98 @@
                 dataType : 'json',
                 data: data,
             }).done(function(rec){
-                // prepend
+                var html =
+                    '<div class="card mb-4">\
+                        <div class="card-header-lg">\
+                            <div class="m-1">\
+                                <a href="#">\
+                                    <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-post" alt="Profile image">\
+                                </a>\
+                            </div>\
+                            <div class="m-2 profile-header-name">\
+                                <div class="row">\
+                                    <div class="header-name-post">\
+                                        <a href="#">\
+                                            <label class="font-header-name-post">{{Auth::user()->name}}</label>\
+                                        </a>\
+                                    </div>\
+                                    <div class="action-more ml-auto">\
+                                        <div class="dropdown option-action-more">\
+                                            <span class="dropdown-toggle dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
+                                            </span>\
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">\
+                                                <a class="dropdown-item" href="#">Save post</a>\
+                                                <a class="dropdown-item" href="#">Copy link</a>\
+                                                <a class="dropdown-item" href="#">Delete post</a>\
+                                                <a class="dropdown-item dropdown-item-last report_post" data-id='+rec.id+' href="#">Report post</a>\
+                                             </div>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="dropdown show font-header-date-post">\
+                                    <label class="">'+rec.created_at+'</label>\
+                                    <a class="" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
+                                        <i class="fa fa-caret-right" aria-hidden="true"></i> Public\
+                                    </a>\
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">\
+                                        <a class="dropdown-item" href="#">Public</a>\
+                                        <a class="dropdown-item" href="#">Friends</a>\
+                                        <a class="dropdown-item" href="#">Spacific friends</a>\
+                                        <a class="dropdown-item" href="#">Only me</a>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div class="card-body-lg">\
+                            <div class="m-2 post-content">\
+                                <p id="detail'+rec.id+'">'+rec.detail+'</p>\
+                            </div>\
+                            <div class="m-2 social-action">\
+                                <div class="p-2">\
+                                    <a href="#" data-id='+rec.id+' class="like">\
+                                        <i id="i_like'+rec.id+'" class="fa fa-heart-o fa-1x"></i>&nbsp;&nbsp;\
+                                        <label class="icon-action" id="count_like'+rec.id+'">0</label>\
+                                    </a>\
+                                </div>\
+                                <div class="p-2">\
+                                    <a href="#" class="icon-comment">\
+                                        <span class="icon-action">0</span>\
+                                    </a>\
+                                </div>\
+                                <div class="p-2">\
+                                    <a href="" data-id="'+rec.id+'" class="share">\
+                                        <i id="i_share'+rec.id+'" class="fa fa-share-alt fa-1x"></i>&nbsp;&nbsp;\
+                                        <label class="icon-action" id="count_share'+rec.id+'">0</label>\
+                                    </a>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div id="comment'+rec.id+'"></div>\
+                        <div class="card-footer-lg">\
+                            <div class="m-0">\
+                                <a href="#">\
+                                    <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-comment" alt="Profile image">\
+                                </a>\
+                            </div>\
+                            <form method="post" class="comment_form">\
+                                <div class="m-1 input-comment">\
+                                    <input type="hidden" name="post_id" value="'+rec.id+'">\
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">\
+                                    <input type="text" name="detail" class="form-control input-rounded detail_comment" placeholder="Add a comment" aria-label="Search" aria-describedby="">\
+                                </div>\
+                                <div class="m-1 btn-coment">\
+                                    <input type="submit" class="btn btn-post send_comment" value="POST">\
+                                </div>\
+                            </form>\
+                        </div>\
+                    </div>';
+                $('#wall').prepend(html);
+                $('.post_detail').val('');
             });
+            event.preventDefault();
         });
 
         $('.comment_form').submit(function(event){
-            event.preventDefault();
             var data = $(this).serialize();
             $.ajax({
                 method : "POST",
@@ -390,12 +524,76 @@
                 dataType : 'json',
                 data: data,
             }).done(function(rec){
-                // prepend
+                var html =
+                '<div class="card-body-comment-lg">\
+                    <div class="m-2">\
+                        <a href="#">\
+                            <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-friend-comment" alt="Profile image">\
+                        </a>\
+                    </div>\
+                    <div class="mx-2 profile-header-name-comment">\
+                        <div class="row">\
+                            <div class="header-name-comment">\
+                                <a href="#">\
+                                    <label class="font-header-friend-comment">{{Auth::user()->name}}</label>\
+                                </a>\
+                            </div>\
+                            <div class="dropdown show font-header-date-comment">\
+                                <label class="date-comment">'+rec.created_at+'</label>\
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">\
+                                    <a class="dropdown-item" href="#">Public</a>\
+                                    <a class="dropdown-item" href="#">Friends</a>\
+                                    <a class="dropdown-item" href="#">Spacific friends</a>\
+                                    <a class="dropdown-item" href="#">Only me</a>\
+                                </div>\
+                            </div>\
+                            <div class="comment-action-more ml-auto">\
+                                <div class="dropdown option-action-more"\
+                                    <span class="dropdown-toggle dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
+                                    </span>\
+                                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">\
+                                        <a class="dropdown-item" href="#">Edit </a>\
+                                        <a class="dropdown-item" href="#">Delete </a>\
+                                        <a class="dropdown-item dropdown-item-last" href="#">Report </a>\
+                                     </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+                    </div>\
+                    <div class="mx-2 post-comment">\
+                        <p class="mb-0">'+rec.detail+'</p>\
+                        <div class="comment-reply">\
+                            <a href="#" class="text-reply">reply</a>\
+                            <div class="mb-4 mt-2 reply-box">\
+                                <div class="m-0">\
+                                  <a href="#">\
+                                    <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-comment" alt="Profile image">\
+                                  </a>\
+                                </div>\
+                                <form method="post" class="reply_form">\
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">\
+                                    <input type="hidden" name="post_id" value="'+rec.post_id+'">\
+                                    <input type="hidden" name="comment_id" value="'+rec.id+'">\
+                                    <input type="hidden" name="partner_id" value="'+rec.member_id+'">\
+                                    <div class="m-1 input-comment">\
+                                        <input type="text" class="form-control input-rounded detail_report" name="message" placeholder="Add a reply" aria-label="Search" aria-describedby="">\
+                                    </div>\
+                                    <div class="m-1 btn-reply-cmt">\
+                                        <input type="submit" class="btn btn-post reply-btn send_reply" value="REPLY">\
+                                    </div>\
+                                </form>\
+                            </div>\
+                            <div id="reply'+rec.id+'"></div>\
+                        </div>\
+                    </div>\
+                </div>';
+                $('#comment'+rec.post_id).append(html);
+                $('.detail_comment').val('');
             });
+            event.preventDefault();
         });
 
         $('.reply_form').submit(function(event){
-            event.preventDefault();
             var data = $(this).serialize();
             $.ajax({
                 method : "POST",
@@ -403,8 +601,43 @@
                 dataType : 'json',
                 data: data,
             }).done(function(rec){
-                // prepend
+                var html =
+                    '<div class="box-reply">\
+                        <div class="m-2">\
+                            <a href="#">\
+                                <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-friend-comment" alt="Profile image">\
+                            </a>\
+                        </div>\
+                        <div class="mx-2 profile-header-name-comment">\
+                            <div class="row">\
+                                <div class="header-name-comment-reply">\
+                                    <a href="#">\
+                                        <label class="font-header-friend-comment">{{Auth::user()->name}}</label>\
+                                    </a>\
+                                </div>\
+                                <div class="font-header-date-comment-reply">\
+                                    <label class="date-comment">'+rec.created_at+'</label>\
+                                </div>\
+                                <div class="comment-action-more ml-auto">\
+                                    <div class="dropdown option-action-more">\
+                                        <span class="dropdown-toggle reply-dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></span>\
+                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">\
+                                            <a class="dropdown-item" href="#">Edit </a>\
+                                            <a class="dropdown-item" href="#">Delete </a>\
+                                         </div>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                            <div class="mx-2 post-comment-reply">\
+                                <p class="mb-0">'+rec.message+'</p>\
+                                <a href="#" class="text-reply">reply</a>\
+                            </div>\
+                        </div>\
+                    </div>';
+                $('#reply'+rec.comment_id).append(html);
+                $('.detail_report').val('');
             });
+            event.preventDefault();
         });
 
         $('body').on('click', '.report_post', function () {
@@ -459,20 +692,125 @@
         });
 
         $('body').on('click','.share',function(){
-            var id = $(this).data('id');
-            var count = parseInt($('#count_share'+id).text());
-            $('#shared_detail').text($('#detail'+id).text());
-            $('input[name="post_share_id"]').val(id);
-            $('input[name="shared"]').val(count);
-            $("#shareModal").modal('show');
             event.preventDefault();
-            /*$.ajax({
-                method : 'get',
-                url    : url+"/share/"+id+"/"+count,
-            }).done(function(rec){
-                $('#count_share'+id).text(rec);
-            });
-            event.preventDefault();*/
+            var id = $(this).data('id');
+            var status = $(this).data('status');
+            var count = parseInt($('#count_share'+id).text());
+            if(status==1){
+                $.ajax({
+                    method : "get",
+                    url : url+"/share/"+id+"/"+count,
+                    dataType : 'json',
+                }).done(function(rec){
+                    if(rec.user_id=={{Auth::user()->id}}){
+                        $('#count_share'+id).text(rec.count);
+                        var html =
+                        '<div class="card mb-4">\
+                            <div class="card-header-lg ">\
+                                <div class="m-1">\
+                                    <a href="#">\
+                                        <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-post" alt="Profile image">\
+                                    </a>\
+                                </div>\
+                                <div class="m-2 profile-header-name">\
+                                    <div class="row">\
+                                        <div class="header-name-post">\
+                                            <a href="#">\
+                                                <label class="font-header-name-post">{{Auth::user()->name}}</label>\
+                                            </a>\
+                                                แชร์จาก\
+                                                <label class="font-header-name-post">'+rec.data.get_share.get_user['name']+'</label>\
+                                        </div>\
+                                        <div class="action-more ml-auto">\
+                                            <div class="dropdown option-action-more">\
+                                                <span class="dropdown-toggle dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
+                                                </span>\
+                                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">\
+                                                    <a class="dropdown-item" href="#">Save post</a>\
+                                                    <a class="dropdown-item" href="#">Copy link</a>\
+                                                    <a class="dropdown-item" href="#">Delete post</a>\
+                                                    <a class="dropdown-item dropdown-item-last report_post" data-id='+rec.data.id+' href="#">Report post</a>\
+                                                 </div>\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                    <div class="dropdown show font-header-date-post">\
+                                        <label class="">'+rec.data.created_at+'</label>\
+                                        <a class="" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
+                                            <i class="fa fa-caret-right" aria-hidden="true"></i> Public\
+                                        </a>\
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">\
+                                            <a class="dropdown-item" href="#">Public</a>\
+                                            <a class="dropdown-item" href="#">Friends</a>\
+                                            <a class="dropdown-item" href="#">Spacific friends</a>\
+                                            <a class="dropdown-item" href="#">Only me</a>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                            <div class="card-body-lg">\
+                                <div class="m-2 post-content">\
+                                    <p id="detail'+rec.data.id+'"></p>\
+                                        <div class="row">\
+                                            <div class="col-md-1"></div>\
+                                            <div class="col-md-10">\
+                                                <p>'+jQuery.parseJSON(rec.data.get_share.detail)+'</p>\
+                                            </div>\
+                                        </div>\
+                                </div>\
+                                <div class="m-2 social-action">\
+                                    <div class="p-2">\
+                                        <a href="#" data-id='+rec.data.id+' class="like">\
+                                            <i id="i_like'+rec.data.id+'" class="fa fa-heart-o fa-1x"></i>&nbsp;&nbsp;\
+                                            <label class="icon-action" id="count_like'+rec.data.id+'">0</label>\
+                                        </a>\
+                                    </div>\
+                                    <div class="p-2">\
+                                        <a href="#" class="icon-comment">\
+                                            <span class="icon-action">0</span>\
+                                        </a>\
+                                    </div>\
+                                    <div class="p-2">\
+                                        <a href="" data-id="'+rec.data.id+'" class="share">\
+                                            <i id="i_share'+rec.data.id+'" class="fa fa-share-alt fa-1x"></i>&nbsp;&nbsp;\
+                                            <label class="icon-action" id="count_share'+rec.data.id+'">0</label>\
+                                        </a>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                            <div id="comment'+rec.data.id+'"></div>\
+                            <div class="card-footer-lg">\
+                                <div class="m-0">\
+                                    <a href="#">\
+                                        <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-comment" alt="Profile image">\
+                                    </a>\
+                                </div>\
+                                <form method="post" class="comment_form">\
+                                    <div class="m-1 input-comment">\
+                                        <input type="hidden" name="post_id" value="'+rec.data.id+'">\
+                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">\
+                                        <input type="text" name="detail" class="form-control input-rounded detail_comment" placeholder="Add a comment" aria-label="Search" aria-describedby="">\
+                                    </div>\
+                                    <div class="m-1 btn-coment">\
+                                        <input type="submit" class="btn btn-post send_comment" value="POST">\
+                                    </div>\
+                                </form>\
+                            </div>\
+                        </div>';
+                        $('#wall').prepend(html);
+                    }
+                });
+            }else if(status==2){
+                $('#shared_detail').text($('#detail'+id).text());
+                $('input[name="post_share_id"]').val(id);
+                $('input[name="shared"]').val(count);
+                $("#shareModal").modal('show');
+            }else if(status==3){
+                $('#f_shared_detail').text($('#detail'+id).text());
+                $('#f_post_share_id').val(id);
+                $('#f_shared').val(count);
+                $("#shareToFriendModal").modal('show');
+            }
         });
 
         $('.shareForm').submit(function(event){
@@ -484,8 +822,215 @@
                 dataType : 'json',
                 data: data,
             }).done(function(rec){
-                $('#count_share'+id).text(rec);
+                if(rec.user_id=={{Auth::user()->id}}){
+                    $('#count_share'+id).text(rec.count);
+                    var html =
+                    '<div class="card mb-4">\
+                        <div class="card-header-lg ">\
+                            <div class="m-1">\
+                                <a href="#">\
+                                    <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-post" alt="Profile image">\
+                                </a>\
+                            </div>\
+                            <div class="m-2 profile-header-name">\
+                                <div class="row">\
+                                    <div class="header-name-post">\
+                                        <a href="#">\
+                                            <label class="font-header-name-post">{{Auth::user()->name}}</label>\
+                                        </a>\
+                                            แชร์จาก\
+                                            <label class="font-header-name-post">'+rec.data.get_share.get_user['name']+'</label>\
+                                    </div>\
+                                    <div class="action-more ml-auto">\
+                                        <div class="dropdown option-action-more">\
+                                            <span class="dropdown-toggle dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
+                                            </span>\
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">\
+                                                <a class="dropdown-item" href="#">Save post</a>\
+                                                <a class="dropdown-item" href="#">Copy link</a>\
+                                                <a class="dropdown-item" href="#">Delete post</a>\
+                                                <a class="dropdown-item dropdown-item-last report_post" data-id='+rec.data.id+' href="#">Report post</a>\
+                                             </div>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="dropdown show font-header-date-post">\
+                                    <label class="">'+rec.data.created_at+'</label>\
+                                    <a class="" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
+                                        <i class="fa fa-caret-right" aria-hidden="true"></i> Public\
+                                    </a>\
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">\
+                                        <a class="dropdown-item" href="#">Public</a>\
+                                        <a class="dropdown-item" href="#">Friends</a>\
+                                        <a class="dropdown-item" href="#">Spacific friends</a>\
+                                        <a class="dropdown-item" href="#">Only me</a>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div class="card-body-lg">\
+                            <div class="m-2 post-content">\
+                                <p id="detail'+rec.data.id+'">'+jQuery.parseJSON(rec.data.detail)+'</p>\
+                                    <div class="row">\
+                                        <div class="col-md-1"></div>\
+                                        <div class="col-md-10">\
+                                            <p>'+jQuery.parseJSON(rec.data.get_share.detail)+'</p>\
+                                        </div>\
+                                    </div>\
+                            </div>\
+                            <div class="m-2 social-action">\
+                                <div class="p-2">\
+                                    <a href="#" data-id='+rec.data.id+' class="like">\
+                                        <i id="i_like'+rec.data.id+'" class="fa fa-heart-o fa-1x"></i>&nbsp;&nbsp;\
+                                        <label class="icon-action" id="count_like'+rec.data.id+'">0</label>\
+                                    </a>\
+                                </div>\
+                                <div class="p-2">\
+                                    <a href="#" class="icon-comment">\
+                                        <span class="icon-action">0</span>\
+                                    </a>\
+                                </div>\
+                                <div class="p-2">\
+                                    <a href="" data-id="'+rec.data.id+'" class="share">\
+                                        <i id="i_share'+rec.data.id+'" class="fa fa-share-alt fa-1x"></i>&nbsp;&nbsp;\
+                                        <label class="icon-action" id="count_share'+rec.data.id+'">0</label>\
+                                    </a>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div id="comment'+rec.data.id+'"></div>\
+                        <div class="card-footer-lg">\
+                            <div class="m-0">\
+                                <a href="#">\
+                                    <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-comment" alt="Profile image">\
+                                </a>\
+                            </div>\
+                            <form method="post" class="comment_form">\
+                                <div class="m-1 input-comment">\
+                                    <input type="hidden" name="post_id" value="'+rec.data.id+'">\
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">\
+                                    <input type="text" name="detail" class="form-control input-rounded detail_comment" placeholder="Add a comment" aria-label="Search" aria-describedby="">\
+                                </div>\
+                                <div class="m-1 btn-coment">\
+                                    <input type="submit" class="btn btn-post send_comment" value="POST">\
+                                </div>\
+                            </form>\
+                        </div>\
+                    </div>';
+                    $('#wall').prepend(html);
+                    }
                 $("#shareModal").modal('hide');
+            });
+            event.preventDefault();
+        });
+
+        $('.shareToFriendForm').submit(function(event){
+            var id = $("input[name='post_share_id']").val();
+            var data = $(this).serialize();
+            $.ajax({
+                method : "POST",
+                url : url+"/share_to_friend",
+                dataType : 'json',
+                data: data,
+            }).done(function(rec){
+                if(rec.user_id=={{Auth::user()->id}}){
+                    $('#count_share'+id).text(rec.count);
+                    var html =
+                    '<div class="card mb-4">\
+                        <div class="card-header-lg ">\
+                            <div class="m-1">\
+                                <a href="#">\
+                                    <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-post" alt="Profile image">\
+                                </a>\
+                            </div>\
+                            <div class="m-2 profile-header-name">\
+                                <div class="row">\
+                                    <div class="header-name-post">\
+                                        <a href="#">\
+                                            <label class="font-header-name-post">{{Auth::user()->name}}</label>\
+                                        </a>\
+                                            แชร์จาก\
+                                            <label class="font-header-name-post">'+rec.data.get_share.get_user['name']+'</label>\
+                                    </div>\
+                                    <div class="action-more ml-auto">\
+                                        <div class="dropdown option-action-more">\
+                                            <span class="dropdown-toggle dropdown-action-more" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
+                                            </span>\
+                                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">\
+                                                <a class="dropdown-item" href="#">Save post</a>\
+                                                <a class="dropdown-item" href="#">Copy link</a>\
+                                                <a class="dropdown-item" href="#">Delete post</a>\
+                                                <a class="dropdown-item dropdown-item-last report_post" data-id='+rec.data.id+' href="#">Report post</a>\
+                                             </div>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                                <div class="dropdown show font-header-date-post">\
+                                    <label class="">'+rec.data.created_at+'</label>\
+                                    <a class="" href="#" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">\
+                                        <i class="fa fa-caret-right" aria-hidden="true"></i> Public\
+                                    </a>\
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">\
+                                        <a class="dropdown-item" href="#">Public</a>\
+                                        <a class="dropdown-item" href="#">Friends</a>\
+                                        <a class="dropdown-item" href="#">Spacific friends</a>\
+                                        <a class="dropdown-item" href="#">Only me</a>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div class="card-body-lg">\
+                            <div class="m-2 post-content">\
+                                <p id="detail'+rec.data.id+'">'+jQuery.parseJSON(rec.data.detail)+'</p>\
+                                    <div class="row">\
+                                        <div class="col-md-1"></div>\
+                                        <div class="col-md-10">\
+                                            <p>'+jQuery.parseJSON(rec.data.get_share.detail)+'</p>\
+                                        </div>\
+                                    </div>\
+                            </div>\
+                            <div class="m-2 social-action">\
+                                <div class="p-2">\
+                                    <a href="#" data-id='+rec.data.id+' class="like">\
+                                        <i id="i_like'+rec.data.id+'" class="fa fa-heart-o fa-1x"></i>&nbsp;&nbsp;\
+                                        <label class="icon-action" id="count_like'+rec.data.id+'">0</label>\
+                                    </a>\
+                                </div>\
+                                <div class="p-2">\
+                                    <a href="#" class="icon-comment">\
+                                        <span class="icon-action">0</span>\
+                                    </a>\
+                                </div>\
+                                <div class="p-2">\
+                                    <a href="" data-id="'+rec.data.id+'" class="share">\
+                                        <i id="i_share'+rec.data.id+'" class="fa fa-share-alt fa-1x"></i>&nbsp;&nbsp;\
+                                        <label class="icon-action" id="count_share'+rec.data.id+'">0</label>\
+                                    </a>\
+                                </div>\
+                            </div>\
+                        </div>\
+                        <div id="comment'+rec.data.id+'"></div>\
+                        <div class="card-footer-lg">\
+                            <div class="m-0">\
+                                <a href="#">\
+                                    <img src="{{Auth::user()->avatar}}" class="img-fluid rounded-circle image-comment" alt="Profile image">\
+                                </a>\
+                            </div>\
+                            <form method="post" class="comment_form">\
+                                <div class="m-1 input-comment">\
+                                    <input type="hidden" name="post_id" value="'+rec.data.id+'">\
+                                    <input type="hidden" name="_token" value="{{ csrf_token() }}">\
+                                    <input type="text" name="detail" class="form-control input-rounded detail_comment" placeholder="Add a comment" aria-label="Search" aria-describedby="">\
+                                </div>\
+                                <div class="m-1 btn-coment">\
+                                    <input type="submit" class="btn btn-post send_comment" value="POST">\
+                                </div>\
+                            </form>\
+                        </div>\
+                    </div>';
+                    $('#wall').prepend(html);
+                    }
+                $("#shareToFriendModal").modal('hide');
             });
             event.preventDefault();
         });

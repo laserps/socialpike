@@ -23,6 +23,9 @@
             } catch (Exception $e){
                 \DB::rollBack();
             }
+            $result = Comment::where('member_id',Auth::user()->id)->orderBy('id','desc')->first();
+            $result['detail'] = json_decode($result['detail']);
+            return $result;
         }
     }
 ?>

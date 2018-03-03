@@ -95,6 +95,8 @@
         function search_friend($name){
             $name = str_replace("."," ",$name);
             $result['user'] = User::where('name',$name)->first();
+            $friend = json_decode(\App\Models\UserFriend::where('user_id',Auth::user()->id)->first()->friend_id);
+            $result['friend'] = User::whereIn('id',$friend)->get();
             $result['result'] = Post::with(['getShare.getUser','getComment.getUser','getUser','getComment.getReply','getComment.getReply.getUser'])
             ->where('posted_at',$result['user']->id)
             ->orderBy('created_at','DESC')

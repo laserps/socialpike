@@ -11,6 +11,8 @@
     class FetchController extends Controller
     {
         public function wall(){
+            $friend = json_decode(\App\Models\UserFriend::where('user_id',Auth::user()->id)->first()->friend_id);
+            $result['friend'] = User::whereIn('id',$friend)->get();
             $result['user'] = User::where('id',Auth::user()->id)->first();
             $result['result'] = Post::with(['getShare.getUser','getComment.getUser','getUser','getComment.getReply','getComment.getReply.getUser'])
             ->where('posted_at',Auth::user()->id)
