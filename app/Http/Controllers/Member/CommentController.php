@@ -18,13 +18,13 @@
             $comment['deleted_at'] = null;
             \DB::beginTransaction();
             try {
-                Comment::insert($comment);
+                $id = Comment::insertGetId($comment);
                 \DB::commit();
             } catch (Exception $e){
                 \DB::rollBack();
             }
-            $result = Comment::where('member_id',Auth::user()->id)->orderBy('id','desc')->first();
-            $result['detail'] = json_decode($result['detail']);
+            $result = Comment::where('id',$id)->orderBy('id','desc')->first();
+            //$result['detail'] = json_decode($result['detail']);
             return $result;
         }
     }

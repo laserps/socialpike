@@ -37,7 +37,7 @@
                                 </a>
                             </div>
                             <div class="p-2">
-                                <a class="nav-link" href="#"><i class="fa fa-ellipsis-h fa-lg" aria-hidden="true"></i>
+                            <a class="nav-link" href="{{url('/logout')}}"><i class="fa fa-sign-out fa-lg" aria-hidden="true"></i>
                                 </a>
                             </div>
                         </div>

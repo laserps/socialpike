@@ -589,14 +589,16 @@
                         </div>\
                     </div>\
                 </div>';
-                $('#comment'+rec.post_id).append(html);
+                $(html).appendTo('#comment'+rec.post_id);
                 $('.detail_comment').val('');
             });
             event.preventDefault();
         });
 
         $('.reply_form').submit(function(event){
+            event.preventDefault();
             var data = $(this).serialize();
+            console.log(data)
             $.ajax({
                 method : "POST",
                 url : url+"/reply",
@@ -639,7 +641,7 @@
                 $('#reply'+rec.comment_id).append(html);
                 $('.detail_report').val('');
             });
-            event.preventDefault();
+            
         });
 
         $('body').on('click', '.report_post', function () {

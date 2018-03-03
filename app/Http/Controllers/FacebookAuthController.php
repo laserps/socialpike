@@ -28,6 +28,6 @@ class FacebookAuthController extends Controller
         $user = $service->createOrGetUser(Socialite::driver('facebook')->user());
         auth()->guard('web')->login($user);
         //auth()->login($user);
-        return redirect()->to('/main');
+        return redirect()->to('/');
     }
 }

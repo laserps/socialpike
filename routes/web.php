@@ -12,32 +12,21 @@ use function GuzzleHttp\json_decode;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-
-Route::get('test',function(){
-    $array1 = array("green","yellow","blue","red","white");
-    $array2 = array("green","yellow","blue");
-    $result['array_diff'] = json_encode( array_values(array_diff($array1, $array2)) );
-    $test =  array("25","17","45");
-    $result['decode'] = json_encode( $test );
-    return ($result);
-});
-
 Auth::routes();
 Route::get('/redirect', 'FacebookAuthController@redirect');
 Route::get('/callback', 'FacebookAuthController@callback');
 
 Route::get('/logout',function(){
-    return \Auth::logout();
+    \Auth::logout();
+    return redirect('/');
 });
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['middleware' => 'member'], function(){
-
-    Route::get('/first', function(){
-        return view('Member.main');
-    });
+    // Route::get('/first', function(){
+    //     return view('Member.main');
+    // });
 
     Route::get('/editprofile',function(){
         $data['user'] = \App\Models\User::where('id', \AUTH::user()->id )->first();
@@ -69,7 +58,7 @@ Route::group(['middleware' => 'member'], function(){
     Route::get('/main','Member\FetchController@main');
 
     Route::get('/','Member\FetchController@wall');
-    
+    Route::post('/comment', 'Member\CommentController@store');
     Route::get('/wall','Member\FetchController@wall');
     Route::post('/post', 'Member\PostController@store');
     Route::get('/like/{post_id}/{user_id}', 'Member\PostController@like');
@@ -78,14 +67,14 @@ Route::group(['middleware' => 'member'], function(){
     Route::post('/share_to_friend', 'Member\PostController@share_to_friend');
     Route::get('/share/{id}/{count}', 'Member\PostController@share_now');
     Route::post('/reply', 'Member\ReplyController@store');
-    Route::post('/comment', 'Member\CommentController@store');
+    
     Route::post('/report', 'Member\ReportController@store');
     Route::get('/find_report/{post_id}', 'Member\ReportController@find');
     Route::get('/profile', 'Member\UserController@index');
     Route::post('/profile', 'Member\UserController@store');
 
     Route::get('/info', 'Member\UserController@info');
-    Route::get('/{name}/info','Member\UserController@search_friend');
+    //Route::get('/{name}/info','Member\UserController@search_friend');
     //Route::get('/search_place', 'Member\UserController@search_place');
 
     //Route::get('search',array('as'=>'search','uses'=>'SearchController@search'));

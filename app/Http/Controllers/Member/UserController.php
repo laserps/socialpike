@@ -104,6 +104,8 @@
             ->get();
             $result['report_type'] = \App\Models\ReportType::get();
             $result['topbar']="post";
+            $result['pagetype'] = str_replace(' ','.',$result['user']->name);
+            //return $return['pagetype'];
             return view('Member.backup_main',$result);
         }
     }

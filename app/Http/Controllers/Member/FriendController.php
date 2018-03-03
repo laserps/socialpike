@@ -32,7 +32,7 @@ class FriendController extends Controller
         $return['user'] = User::where('id',Auth::user()->id)->first();
         $friendid = json_decode(UserFriend::where('user_id',Auth::user()->id)->first()->friend_id);
         $return['friends'] = User::whereIn('id',$friendid)->get();
-        $return['pagetype'] = 'friend';
+        //$return['pagetype'] = 'friend';
         return View::make('Member.friend',$return);
     }
     /**
