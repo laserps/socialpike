@@ -589,7 +589,8 @@
                         </div>\
                     </div>\
                 </div>';
-                $(html).appendTo('#comment'+rec.post_id);
+                //$(html).appendTo('#comment'+rec.post_id);
+                $('#comment'+rec.post_id).append(html);
                 $('.detail_comment').val('');
             });
             event.preventDefault();
